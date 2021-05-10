@@ -1,6 +1,14 @@
+create type nombre as(
+	prim_nombre		varchar(10) not null,
+	segu_nombre		varchar(10) null,
+	ap_paterno		varchar(10) not null,
+	ap_materno		varchar(10) null,
+)
+
 create table conductor(
 	num_conductor 	int not null,
 	edad			int not null,
+	nombre			nombre	not null,
 	fecha_contrat	date not null,
 	direccion		varchar(30) not null,
 	constraint pk_conductor primary key (num_conductor),

@@ -3,7 +3,7 @@ import java.sql.*;
  *
  * @author joseluis
  */
-class MiBDDaw{
+class Conexion{
 	private static String user = "postgres";
 	private static String pswd = "";
 	private static String bd = "";
@@ -11,7 +11,7 @@ class MiBDDaw{
 	private static String driver = "org.postgresql.Driver";
 	private static Connection con; 
 	
-	public MiBDDaw( String DatabaseName ){
+	public Conexion( String DatabaseName ){
 		if( DatabaseName.isEmpty() )
 		{
 			System.out.println("No hay base de datos ingresado con los datos. Abortando.");
@@ -32,27 +32,6 @@ class MiBDDaw{
 		catch(ClassNotFoundException ex){
 			System.out.println( "No se encontró la clase para conectarse. [" + ex + "]" );
 		}
-	}	
-	
-	public ResultSet getQuery(String query){
-		Statement state = null;
-		ResultSet result = null;
-
-		if( con == null )
-		{
-			System.out.println("La conexión con el servidor no se ha establecido.");
-			return result;
-		}
-		
-		try{
-			state=con.createStatement();
-			result=state.executeQuery(query);
-		}
-		catch (SQLException e){
-                        // Netbeans marca que esto deberia ser removido.
-			e.printStackTrace();
-		}
-		return result;
 	}
 	
 	public void setQuery (String query){
@@ -65,5 +44,10 @@ class MiBDDaw{
                         // Netbeans marca que esto deberia ser removido.
 			e.printStackTrace();
 		}
+	}
+
+	Connection getConnection()
+	{
+		return this.con;
 	}
 }

@@ -11,15 +11,17 @@ public class MainBDj{
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("Ingresa el nombre de la base de datos a buscar: ");
-		MiBDDaw conexion = new MiBDDaw( sc.nextLine() );
+		Conexion conexion = new Conexion( sc.nextLine() );
 
+		// Cierra el escaneador para evitar un leak.
 		sc.close();
 
 		ResultSet result;
 		String appaterno,nombre,apmaterno;
 		
 		System.out.println("buscando");
-		result = conexion.getQuery("SELECT * FROM Alumnos");
+		DAO administrador = new DAO( conexion.getConnection() );
+		result = administrador.Consulta("SELECT * FROM Alumnos");
 
 		if( result == null )
 		{

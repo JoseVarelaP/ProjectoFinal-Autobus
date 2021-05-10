@@ -44,12 +44,13 @@ class DAO{
 		}
 
 		// Ya que tenemos la informacion procesada para utilizar, vamos a enviarlo.
-		ResultSet res = this.Consulta(conv);
-
-		// Si almenos tenemos un resultado despues de realizar esta operacion, entonces
-		// el proceso fue existoso.
-		if( !res.next() )
+		try{
+			ResultSet res = this.Consulta(conv);
+		} catch (Exception e)
+		{
+			System.err.println(e.getMessage());
 			return false;
+		}
 
 		return true;
 	}
@@ -63,7 +64,13 @@ class DAO{
 			return false;
 		}
 		// Primero busca la tabla, y verifica que existe.
-		ResultSet res = this.Consulta( String.format("DELETE FROM %s WHERE %s", tabla, condicion) );
+		try{
+			ResultSet res = this.Consulta( String.format("DELETE FROM %s WHERE %s", tabla, condicion) );
+		} catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
 
 		return true;
 	}

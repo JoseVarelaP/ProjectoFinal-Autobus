@@ -21,7 +21,7 @@ public class MainBDj{
 		
 		System.out.println("buscando");
 		DAO administrador = new DAO( conexion.getConnection() );
-		result = administrador.Consulta("SELECT * FROM Alumnos");
+		result = administrador.Consulta("SELECT * FROM alumnos");
 
 		if( result == null )
 		{

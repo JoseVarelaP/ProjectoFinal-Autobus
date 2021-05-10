@@ -17,6 +17,10 @@ class Conexion{
 			System.out.println("No hay base de datos ingresado con los datos. Abortando.");
 			return;
 		}
+
+		this.bd = DatabaseName;
+		this.server = "jdbc:postgresql://localhost:5432/"+this.bd;
+
 		try{
 			// Solamente necesario en java < 1.6.
 			Class.forName(driver);

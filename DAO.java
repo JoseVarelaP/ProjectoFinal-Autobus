@@ -52,6 +52,7 @@ class DAO{
 			return false;
 		}
 
+		// El proceso fue exitoso.
 		return true;
 	}
 
@@ -72,6 +73,28 @@ class DAO{
 			return false;
 		}
 
+		// El proceso fue exitoso.
+		return true;
+	}
+
+	Boolean Modificar( String tabla, String nuevos_datos, String condicion )
+	{
+		// Verifica datos que recibimos, y que no estén vacios. No queremos eliminar una tabla completa, no?
+		if( tabla.isEmpty() || condicion.isEmpty() || nuevos_datos.isEmpty() )
+		{
+			System.out.println("[Modificar] No hay suficientes datos disponibles.");
+			return false;
+		}
+		// Primero busca la tabla, y verifica que existe.
+		try{
+			ResultSet res = this.Consulta( String.format("UPDATE %s SET %s WHERE %s", tabla, nuevos_datos, condicion) );
+		} catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
+
+		// El proceso fue exitoso.
 		return true;
 	}
 }

@@ -4,15 +4,21 @@ import java.sql.*;
  * @author joseluis
  */
 class MiBDDaw{
-	final private static String user = "postgres";
-	final private static String pswd = "";
-	final private static String bd = "joseluis";
-	final private static String server = "jdbc:postgresql://localhost:5432/"+bd;
-	final private static String driver = "org.postgresql.Driver";
+	private static String user = "postgres";
+	private static String pswd = "";
+	private static String bd = "";
+	private static String server = "jdbc:postgresql://localhost:5432/"+bd;
+	private static String driver = "org.postgresql.Driver";
 	private static Connection con; 
 	
-	public MiBDDaw(){
+	public MiBDDaw( String DatabaseName ){
+		if( DatabaseName.isEmpty() )
+		{
+			System.out.println("No hay base de datos ingresado con los datos. Abortando.");
+			return;
+		}
 		try{
+			// Solamente necesario en java < 1.6.
 			Class.forName(driver);
 			con = DriverManager.getConnection(server, user, pswd);
 			
@@ -24,13 +30,19 @@ class MiBDDaw{
 			System.out.println("Error al intentar conectarse a la BD"+  server);
 		}
 		catch(ClassNotFoundException ex){
-			System.out.println(ex);
+			System.out.println( "No se encontró la clase para conectarse. [" + ex + "]" );
 		}
 	}	
 	
 	public ResultSet getQuery(String query){
 		Statement state = null;
 		ResultSet result = null;
+
+		if( con == null )
+		{
+			System.out.println("La conexión con el servidor no se ha establecido.");
+			return result;
+		}
 		
 		try{
 			state=con.createStatement();

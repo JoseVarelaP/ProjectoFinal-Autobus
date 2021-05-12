@@ -4,7 +4,7 @@ Repositorio para el projecto final (y las actividades relacionadas) en la materi
 de Diseño de Aplicaciones Web.
 
 Lista de elementos por ahora:
-- [ ] Archivos SQL para creacion y manejo de datos
+- [X] Archivos SQL para creacion y manejo de datos
 - [X] Archivos iniciales de Java para realizar consultas.
 
 Compilacion con javac se puede realizar con `compilar.sh`.

@@ -4,7 +4,6 @@
  */
 import java.sql.*;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class MainBDj{
 	public static void main (String []args){
@@ -21,39 +20,32 @@ public class MainBDj{
 		
 		System.out.println("buscando");
 		DAO administrador = new DAO( conexion.getConnection() );
-		result = administrador.Consulta("SELECT * FROM alumnos");
 
-		if( result == null )
-		{
-			return;
-		}
+		System.out.println("Mostrando lista.");
+		administrador.ProcesarConsulta( "SELECT * FROM conductor", "nombre" );
 
-		// Tenemos exito, hora de mostrar el menú.
+		System.out.println("Eliminando una entrada de lista.");
+		administrador.Eliminar( "conductor", "num_conductor = 5" );
 
-		try{
-			while(result.next()){
-				// nss = result.getString("nss");
-				nombre = result.getString("nombre");
-				appaterno = result.getString("appaterno");
-				apmaterno = result.getString("apmaterno");
-				if( apmaterno == null )
-				{
-					apmaterno = "";
-				}
-				System.out.print("Nombre alumno: ");
-				System.out.print( nombre + " " + appaterno + " " + apmaterno );
-				// Comienza a dividir lo que contenga el nombre, y manda el resultado.
-				/*
-				StringTokenizer st = new StringTokenizer( nombre ," ");
-				while (st.hasMoreTokens()) {
-					System.out.print(st.nextToken());
-				}
-				*/
-				System.out.print("\n");
-			}
-		}
-		catch (SQLException e){
-			e.printStackTrace();
-		}
+		System.out.println("Agregando una entrada de lista.");
+		// (5,31,row('Gonzalo','Torres','Romero',null), '2010-04-12', 'Dir Cinco'),
+
+		String Som[][] = {
+			{"num_conductor", "5"},
+			{"edad", "31"},
+			// Esta tabla representa un valor multi proveniente de un type.
+			
+			{"__ROW","true"},
+			{"STR_prim_nombre","Gonzalo"},
+			{"STR_segu_nombre","Torres"},
+			{"STR_ap_paterno","Romero"},
+			{"STR_ap_materno","null"},
+			{"__ROW","false"},
+
+			{"STR_fecha_contrat", "2010-04-12"},
+			{"STR_direccion", "Dir Cinco"}
+		};
+
+		administrador.Agregar( "conductor", Som );
 	}
 }

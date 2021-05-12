@@ -24,18 +24,13 @@ class DAO{
 		}
 
 		catch (SQLException e){
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return result;
 	}
 
-	Boolean ProcesarConsulta( String query, String elemento_buscar )
+	Boolean ProcesarConsulta( String query, String[] elemento_buscar )
 	{
-		if( elemento_buscar.isEmpty() )
-		{
-			System.out.println("[ProcesarConsulta] No hay suficientes datos disponibles.");
-			return false;
-		}
 
 		ResultSet result = this.Consulta(query);
 
@@ -46,7 +41,16 @@ class DAO{
 		System.out.println("Resultado:");
 		try{
 			while(result.next()){
-				String nombre = result.getString(elemento_buscar);
+				String nombre = "";
+
+				if( elemento_buscar != null && elemento_buscar.length != 0 )
+					for( String l : elemento_buscar )
+						nombre += result.getString(l) + " ";
+				else {
+					for( int i = 1; i < 6; i++ )
+						nombre += result.getString(i) + " ";
+				}
+
 				// Comienza a dividir lo que contenga el nombre, y manda el resultado.
 				StringTokenizer st = new StringTokenizer( nombre ,"(,)");
 				while (st.hasMoreTokens()) {
@@ -62,13 +66,9 @@ class DAO{
 		return true;
 	}
 
-	Boolean Agregar(String tabla, String[][] valores)
+	String ConvertirDatos( String[][] valores, Boolean convertir_llave )
 	{
-		// Tenemos que procesar que tipo de informacion acabamos de recibir para de ahi ingresarlo.
 		String conv = "";
-		conv += String.format("INSERT INTO %s VALUES (", tabla);
-
-		Boolean necesitacorte = false;
 		for( int i = 0; i < valores.length; i++ )
 		{
 			String linea = "";
@@ -89,11 +89,13 @@ class DAO{
 			else
 			{
 				//System.out.println( "\""+valores[i][0].substring( 4, valores[i][0].length() )+"\"" );
+				Boolean NecesitaString = (valores[i][0].indexOf("STR_") != -1);
+				Boolean EsNulo = valores[i][1].equals("null");
+				String llaveconv = NecesitaString ? valores[i][0].substring( 4, valores[i][0].length() ) : valores[i][0];
+				String valorconv = (NecesitaString ? ( EsNulo ? "null" : "\'"+valores[i][1]+"\'") : valores[i][1]);
+				
 				linea += String.format( (i < valores.length-1) ? "%s," : "%s",
-				valores[i][0].indexOf("STR_") != -1 ?
-					( valores[i][1].equals("null") ? "null" : "\'"+valores[i][1]+"\'")
-				: valores[i][1]
-				);
+				( /*(convertir_llave) ? llaveconv + " = " : "") + */ valorconv ) );
 			}
 
 			// busca si el valor siguiente contiene la bandera falsa.
@@ -116,13 +118,22 @@ class DAO{
 
 		conv += ");";
 
+		return conv;
+	}
+
+	Boolean Agregar(String tabla, String[][] valores)
+	{
+		// Tenemos que procesar que tipo de informacion acabamos de recibir para de ahi ingresarlo.
+		String conv = String.format("INSERT INTO %s VALUES (" + this.ConvertirDatos(valores, false), tabla);
+		// conv += String.format("INSERT INTO %s VALUES (", tabla);
+
 		// Ya que tenemos la informacion procesada para utilizar, vamos a enviarlo.
 		try{
 			System.out.println( conv );
 			ResultSet res = this.Consulta(conv);
 		} catch (Exception e)
 		{
-			System.err.println(e.getMessage());
+			// System.err.println(e.getMessage());
 			return false;
 		}
 
@@ -140,10 +151,12 @@ class DAO{
 		}
 		// Primero busca la tabla, y verifica que existe.
 		try{
-			ResultSet res = this.Consulta( String.format("DELETE FROM %s WHERE %s", tabla, condicion) );
+			String str = String.format("DELETE FROM %s WHERE %s", tabla, condicion);
+			System.out.println( str );
+			ResultSet res = this.Consulta( str );
 		} catch (Exception e)
 		{
-			System.err.println(e.getMessage());
+			//System.err.println(e.getMessage());
 			return false;
 		}
 
@@ -151,20 +164,22 @@ class DAO{
 		return true;
 	}
 
-	Boolean Modificar( String tabla, String nuevos_datos, String condicion )
+	Boolean Modificar( String tabla, String nuevo_dato, String condicion )
 	{
 		// Verifica datos que recibimos, y que no estén vacios. No queremos eliminar una tabla completa, no?
-		if( tabla.isEmpty() || condicion.isEmpty() || nuevos_datos.isEmpty() )
+		if( tabla.isEmpty() || condicion.isEmpty() || nuevo_dato.isEmpty() )
 		{
 			System.out.println("[Modificar] No hay suficientes datos disponibles.");
 			return false;
 		}
 		// Primero busca la tabla, y verifica que existe.
 		try{
-			ResultSet res = this.Consulta( String.format("UPDATE %s SET %s WHERE %s", tabla, nuevos_datos, condicion) );
+			String str = String.format("UPDATE %s SET %s WHERE %s;", tabla, nuevo_dato, condicion);
+			System.out.println( str );
+			ResultSet res = this.Consulta( String.format("UPDATE %s SET %s WHERE %s;", tabla, nuevo_dato, condicion) );
 		} catch (Exception e)
 		{
-			System.err.println(e.getMessage());
+			//System.err.println(e.getMessage());
 			return false;
 		}
 

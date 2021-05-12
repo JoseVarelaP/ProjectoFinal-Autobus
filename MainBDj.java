@@ -18,34 +18,43 @@ public class MainBDj{
 		ResultSet result;
 		String appaterno,nombre,apmaterno;
 		
-		System.out.println("buscando");
+		System.out.println("\n-- buscando --\n");
 		DAO administrador = new DAO( conexion.getConnection() );
 
-		System.out.println("Mostrando lista.");
-		administrador.ProcesarConsulta( "SELECT * FROM conductor", "nombre" );
+		System.out.println("\n-- Mostrando lista. --\n");
+		String[] cons = { "nombre", "edad" };
+		administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
 
-		System.out.println("Eliminando una entrada de lista.");
+		System.out.println("\n-- Eliminando una entrada de lista. --\n");
 		administrador.Eliminar( "conductor", "num_conductor = 5" );
 
-		System.out.println("Agregando una entrada de lista.");
+		System.out.println("\n-- Agregando una entrada de lista. --\n");
 		// (5,31,row('Gonzalo','Torres','Romero',null), '2010-04-12', 'Dir Cinco'),
 
+		// Esta tabla son elementos para agregar una entrada.
 		String Som[][] = {
 			{"num_conductor", "5"},
 			{"edad", "31"},
-			// Esta tabla representa un valor multi proveniente de un type.
 			
-			{"__ROW","true"},
-			{"STR_prim_nombre","Gonzalo"},
-			{"STR_segu_nombre","Torres"},
-			{"STR_ap_paterno","Romero"},
-			{"STR_ap_materno","null"},
-			{"__ROW","false"},
+			{"__ROW","true"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
+			// Esta tabla representa un valor multi proveniente de un type.
+			{"STR_prim_nombre","Gonzalo"},	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_segu_nombre","Torres"},	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_ap_paterno","Romero"},	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_ap_materno","null"},		// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			
+			{"__ROW","false"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
 
-			{"STR_fecha_contrat", "2010-04-12"},
-			{"STR_direccion", "Dir Cinco"}
+			{"STR_fecha_contrat", "2010-04-12"}, 	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_direccion", "Dir Cinco"}			// BANDERA, Vea DAO.ConvertirDatos para detalles.
 		};
 
 		administrador.Agregar( "conductor", Som );
+
+		System.out.println("\n-- Modificando una entrada de lista. --\n");
+		administrador.Modificar( "conductor" , "edad = 10", "num_conductor = 5");
+
+		System.out.println("\n-- Mostrando nueva lista. --\n");
+		administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
 	}
 }

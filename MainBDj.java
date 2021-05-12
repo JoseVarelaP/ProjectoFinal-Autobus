@@ -15,6 +15,10 @@ public class MainBDj{
 		// Cierra el escaneador para evitar un leak.
 		sc.close();
 
+		// Si la conexión nunca se realizó, entoncess no hay necesidad de continuar.
+		if( conexion.getConnection() == null )
+			return;
+
 		ResultSet result;
 		String appaterno,nombre,apmaterno;
 		

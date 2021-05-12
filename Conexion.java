@@ -24,17 +24,19 @@ class Conexion{
 		try{
 			// Solamente necesario en java < 1.6.
 			Class.forName(driver);
-			con = DriverManager.getConnection(server, user, pswd);
+			this.con = DriverManager.getConnection(server, user, pswd);
 			
-			if(con != null){
+			if(this.con != null){
 				System.out.println("La conexión a la BD: "+ server +" " + "se realizo al 100%");
 			}
 		}
 		catch(SQLException ex){
 			System.out.println("Error al intentar conectarse a la BD"+  server);
+			this.con = null;
 		}
 		catch(ClassNotFoundException ex){
 			System.out.println( "No se encontró la clase para conectarse. [" + ex + "]" );
+			this.con = null;
 		}
 	}
 	

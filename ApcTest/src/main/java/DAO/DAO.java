@@ -1,7 +1,8 @@
+package DAO;
 import java.sql.*;
 import java.util.StringTokenizer;
 
-class DAO{
+public class DAO{
 	private Connection con;
 
 	public DAO( Connection con )
@@ -29,7 +30,7 @@ class DAO{
 		return result;
 	}
 
-	Boolean ProcesarConsulta( String query, String[] elemento_buscar )
+	public Boolean ProcesarConsulta( String query, String[] elemento_buscar )
 	{
 
 		ResultSet result = this.Consulta(query);

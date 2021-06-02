@@ -1,9 +1,10 @@
+package DAO;
 import java.sql.*;
 /**
  *
  * @author joseluis
  */
-class Conexion{
+public class Conexion{
 	private static String user = "postgres";
 	private static String pswd = "";
 	private static String bd = "";
@@ -52,7 +53,7 @@ class Conexion{
 		}
 	}
 
-	Connection getConnection()
+	public Connection getConnection()
 	{
 		return this.con;
 	}

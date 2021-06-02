@@ -2,7 +2,7 @@
 <%@ page import="java.io.*, java.util.*" %>
 <%@ page import="javax.servlet.*, java.text.*" %>
 <%@ page import="java.sql.*" %>
-<!-- <% Class.forName("com.mysql.jdbc.Driver"); %> -->
+<%@ page import="DAO.*" %>
 
 <!--DOCTYPE html-->
 <!DOCTYPE html>

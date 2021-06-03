@@ -6,30 +6,66 @@
 <!--DOCTYPE html-->
 <!DOCTYPE html>
 <html>
+	<link href="./css/estilo.css" rel="stylesheet"/>
 	<head>
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
 	</head>
+	<script src="./js/empleado.js"></script>
+	<script>
+		const GenerarListadoObjetos = ( Lista ) =>
+		{
+			const divconv = document.createElement("div");
+			for( const elemento of Lista )
+			{
+				console.log( elemento )
+			}				
+			return divconv
+		}
+	</script>
 	<body>
 		<h1>Servicio de Autobuses</h1>
 		<ul>
-			<!-- Haz el listado de las opcioness para agregar o manipular. -->
+			<!-- Haz el listado de las opciones para agregar o manipular. -->
 			<%
-				Conexion conexion = new Conexion( "joseluis" );								
+				Conexion conexion = new Conexion( "joseluis" );
 				DAO administrador = new DAO( conexion.getConnection() );
 				System.out.println("\n-- Mostrando lista. --\n");
 				String[] cons = { "nombre", "edad" };
 				
-				out.println( "<h2>Listado de resultados:</h2>" );
+				out.println( "<h2>Listado de conductores:</h2>" );
 				ArrayList<ArrayList<String>> res = administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
-				for( ArrayList<String> a : res )
+				
+				// Procesa nombres a una lista.
+				ArrayList<ArrayList<String>> nombres = administrador.ProcesarConsulta( "SELECT * FROM conductor", "nombre" );
+
+				for( ArrayList<String> a : nombres )
 				{
-					for( String s : a )
-						out.println( s );
-					out.println( "\n<br>" );
+					%>
+						<script>
+							GenerarListadoObjetos( <%= administrador.ConvierteLista(a) %> );
+						</script>
+					<%
 				}
-					// for( String s : a )
-						// out.println( s + "<br>" );
+				
+				for( ArrayList<String> a : nombres )
+				{
+					out.println("<div class='ListadoObjetoContenedor'>");
+						
+						/////
+						out.println("<div class='ListadoObjetoNombre'>");
+						for( String s : a )
+							out.println( String.format("<p>%s</p>",s) );
+						out.println("</div>");
+						/////
+
+						// Añade un boton para editar la entrada de ese conductor.
+						out.println("<div class='botones'>");
+						out.println( String.format("<button>Editar</button>") );
+						out.println( String.format("<button>Eliminar</button>") );
+						out.println("</div>");
+					out.println("</div>");
+				}
 			%>
 		</ul>
 	</body>

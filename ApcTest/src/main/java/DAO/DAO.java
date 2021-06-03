@@ -30,6 +30,12 @@ public class DAO{
 		}
 		return result;
 	}
+        
+        public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String elemento_buscar )
+	{
+            String[] val = { elemento_buscar };
+            return ProcesarConsulta( query, val );
+        }
 
 	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String[] elemento_buscar )
 	{
@@ -49,16 +55,19 @@ public class DAO{
 
 				if( elemento_buscar != null && elemento_buscar.length != 0 )
 					for( String l : elemento_buscar )
-						nombre += result.getString(l) + " ";
+					{
+						String val = result.getString(l).isEmpty() ? "null" : result.getString(l);
+						nombre += val + ",";
+					}
 				else {
 					for( int i = 1; i < 6; i++ )
-						nombre += result.getString(i) + " ";
+						nombre += result.getString(i) + ",";
 				}
 
 				// Comienza a dividir lo que contenga el nombre, y manda el resultado.
 				StringTokenizer st = new StringTokenizer( nombre ,"(,)");
 				while (st.hasMoreTokens()) {
-					nom.add(st.nextToken())
+					nom.add(st.nextToken());
 				}
 				resultados.add(nom);
 				System.out.print("\n");
@@ -69,6 +78,15 @@ public class DAO{
 		}
 
 		return resultados;
+	}
+
+	public String ConvierteLista( ArrayList<String> s )
+	{
+		String conv = "[";
+		for( String a : s )
+			conv += String.format("'%s',", a);
+		conv += "]"
+		return conv;
 	}
 
 	String ConvertirDatos( String[][] valores, Boolean convertir_llave )

@@ -1,0 +1,15 @@
+.ListadoObjetoContenedor{
+	display: flex;
+	flex-direction: column;
+}
+
+.ListadoObjetoContenedor > .botones{
+	display: flex;
+	flex-direction: row;
+}
+
+.ListadoObjetoNombre{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}

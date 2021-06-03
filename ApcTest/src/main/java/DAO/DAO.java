@@ -31,10 +31,10 @@ public class DAO{
 		return result;
 	}
 
-	public ArrayList<String> ProcesarConsulta( String query, String[] elemento_buscar )
+	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String[] elemento_buscar )
 	{
 
-		ArrayList<String> resultados = new ArrayList();
+		ArrayList<ArrayList<String>> resultados = new ArrayList();
 		ResultSet result = this.Consulta(query);
 
 		if( result == null )
@@ -45,6 +45,7 @@ public class DAO{
 		try{
 			while(result.next()){
 				String nombre = "";
+				ArrayList<String> nom = new ArrayList();
 
 				if( elemento_buscar != null && elemento_buscar.length != 0 )
 					for( String l : elemento_buscar )
@@ -57,8 +58,9 @@ public class DAO{
 				// Comienza a dividir lo que contenga el nombre, y manda el resultado.
 				StringTokenizer st = new StringTokenizer( nombre ,"(,)");
 				while (st.hasMoreTokens()) {
-					resultados.add(st.nextToken());
+					nom.add(st.nextToken())
 				}
+				resultados.add(nom);
 				System.out.print("\n");
 			}
 		} catch (SQLException e)

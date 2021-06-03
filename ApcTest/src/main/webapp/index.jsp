@@ -13,17 +13,23 @@
 	<body>
 		<h1>Servicio de Autobuses</h1>
 		<ul>
-			<li>Ir a<a href="index.jsp"> Página JSP</a>.
-			<li>Ir a<a href="/TestTomcatMaven/HolaMundo"> Página Servlet</a>.
-								
 			<!-- Haz el listado de las opcioness para agregar o manipular. -->
 			<%
 				Conexion conexion = new Conexion( "joseluis" );								
 				DAO administrador = new DAO( conexion.getConnection() );
 				System.out.println("\n-- Mostrando lista. --\n");
 				String[] cons = { "nombre", "edad" };
-				out.println( administrador.ProcesarConsulta( "SELECT * FROM conductor", cons ) );
-				out.println("hihihi");
+				
+				out.println( "<h2>Listado de resultados:</h2>" );
+				ArrayList<ArrayList<String>> res = administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
+				for( ArrayList<String> a : res )
+				{
+					for( String s : a )
+						out.println( s );
+					out.println( "\n<br>" );
+				}
+					// for( String s : a )
+						// out.println( s + "<br>" );
 			%>
 		</ul>
 	</body>

@@ -1,5 +1,6 @@
 package DAO;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class DAO{
@@ -30,13 +31,14 @@ public class DAO{
 		return result;
 	}
 
-	public Boolean ProcesarConsulta( String query, String[] elemento_buscar )
+	public ArrayList<String> ProcesarConsulta( String query, String[] elemento_buscar )
 	{
 
+		ArrayList<String> resultados = new ArrayList();
 		ResultSet result = this.Consulta(query);
 
 		if( result == null )
-			return false;
+			return resultados;
 
 		// Tenemos exito, hora de mostrar el menú.
 		System.out.println("Resultado:");
@@ -55,16 +57,16 @@ public class DAO{
 				// Comienza a dividir lo que contenga el nombre, y manda el resultado.
 				StringTokenizer st = new StringTokenizer( nombre ,"(,)");
 				while (st.hasMoreTokens()) {
-					System.out.print(st.nextToken() + " ");
+					resultados.add(st.nextToken());
 				}
 				System.out.print("\n");
 			}
 		} catch (SQLException e)
 		{
-			return false;
+			return resultados;
 		}
 
-		return true;
+		return resultados;
 	}
 
 	String ConvertirDatos( String[][] valores, Boolean convertir_llave )

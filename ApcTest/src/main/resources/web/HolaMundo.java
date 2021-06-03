@@ -23,5 +23,4 @@ public class HolaMundo extends HttpServlet{
 		out.println("</body>");
 		out.println("</html>");
 	}
-
 }

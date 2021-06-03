@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*" %>
 <%@ page import="javax.servlet.*, java.text.*" %>
-<%@ page import="java.sql.*" %>
 <%@ page import="DAO.*" %>
 
 <!--DOCTYPE html-->
@@ -12,21 +11,20 @@
 		<title>Servicio de Autobuses</title>
 	</head>
 	<body>
-                <h1>Servicio de Autobuses</h1>
+		<h1>Servicio de Autobuses</h1>
 		<ul>
 			<li>Ir a<a href="index.jsp"> Página JSP</a>.
 			<li>Ir a<a href="/TestTomcatMaven/HolaMundo"> Página Servlet</a>.
-                            
-                        <!-- Haz el listado de las opcioness para agregar o manipular. -->
-                        <%                    
-                            Conexion conexion = new Conexion( "joseluis" );
-                            
-                            DAO administrador = new DAO( conexion.getConnection() );
-
-                            System.out.println("\n-- Mostrando lista. --\n");
-                            String[] cons = { "nombre", "edad" };
-                            administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
-                        %>
+								
+			<!-- Haz el listado de las opcioness para agregar o manipular. -->
+			<%
+				Conexion conexion = new Conexion( "joseluis" );								
+				DAO administrador = new DAO( conexion.getConnection() );
+				System.out.println("\n-- Mostrando lista. --\n");
+				String[] cons = { "nombre", "edad" };
+				out.println( administrador.ProcesarConsulta( "SELECT * FROM conductor", cons ) );
+				out.println("hihihi");
+			%>
 		</ul>
 	</body>
 </html>

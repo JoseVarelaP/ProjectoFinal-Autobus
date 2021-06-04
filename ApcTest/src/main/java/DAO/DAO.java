@@ -10,6 +10,7 @@ public class DAO{
 	{
 		this.con = con;
 	}
+
 	ResultSet Consulta(String query){
 		Statement state = null;
 		ResultSet result = null;
@@ -19,6 +20,8 @@ public class DAO{
 			System.out.println("La conexión con el servidor no se ha establecido.");
 			return result;
 		}
+
+		System.out.println("QUERY: " + query);
 		
 		try{
 			state = this.con.createStatement();
@@ -30,12 +33,33 @@ public class DAO{
 		}
 		return result;
 	}
-        
-        public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String elemento_buscar )
+
+	/*
+	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String elemento_buscar )
 	{
-            String[] val = { elemento_buscar };
-            return ProcesarConsulta( query, val );
-        }
+		String[] val = { elemento_buscar };
+		return ProcesarConsulta( query, val );
+	}
+	*/
+
+	/**
+	 * Regresa el conteo de objetos que se requieran de query.
+	 * @param query	Las tablas a buscar la cantidad de elementos. 
+	 * @return	Texto que representa el numero de objetos en la consulta.
+	 */
+	public int ConteoConsulta( String query )
+	{
+		ResultSet result = this.Consulta( String.format( "SELECT COUNT(*) AS total FROM %s", query ) );
+		try{
+			if( result.next() )
+			{
+				return result.getInt("total");
+			}
+		} catch (SQLException e) {
+			return 0;
+		}
+		return 0;
+	}
 
 	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String[] elemento_buscar )
 	{
@@ -85,7 +109,7 @@ public class DAO{
 		String conv = "[";
 		for( String a : s )
 			conv += String.format("'%s',", a);
-		conv += "]"
+		conv += "]";
 		return conv;
 	}
 

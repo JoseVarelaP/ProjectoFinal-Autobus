@@ -24,19 +24,32 @@
 		}
 	</script>
 	<body>
-		<h1>Servicio de Autobuses</h1>
+		<div class="header">
+			<img src="./img/autobus.png">
+			<p>Servicio de Autobuses</p>
+		</div>
 		<ul>
 			<!-- Haz el listado de las opciones para agregar o manipular. -->
+			<div>
+				<h2 class="Titulo">Listado de conductores</h2>
+			</div>
 			<%
 				Conexion conexion = new Conexion( "joseluis" );
 				DAO administrador = new DAO( conexion.getConnection() );
-				System.out.println("\n-- Mostrando lista. --\n");
 				String[] cons = { "nombre", "edad" };
 				
-				out.println( "<h2>Listado de conductores:</h2>" );
-				ArrayList<ArrayList<String>> res = administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
+				int res = administrador.ConteoConsulta( "conductor" );
+				ArrayList<Conductor> conductores = new ArrayList<>();
+				
+				for( int i = 1; i <= res; i++ )
+				{
+					Conductor c = new Conductor( conexion.getConnection(), i );
+					conductores.add( c );
+				}
 				
 				// Procesa nombres a una lista.
+				// out.println( administrador.ConteoConsulta( "conductor", null ) );
+				/*
 				ArrayList<ArrayList<String>> nombres = administrador.ProcesarConsulta( "SELECT * FROM conductor", "nombre" );
 
 				for( ArrayList<String> a : nombres )
@@ -66,6 +79,7 @@
 						out.println("</div>");
 					out.println("</div>");
 				}
+				*/
 			%>
 		</ul>
 	</body>

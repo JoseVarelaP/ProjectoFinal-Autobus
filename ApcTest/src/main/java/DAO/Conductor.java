@@ -42,31 +42,15 @@ public class Conductor extends DAO {
 			return;
 		}
 
-		
 		try{
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
 				this.ID = Integer.parseInt(result.getString("ID"));
 	
-				// EL nombre está creado dentro de una tabla, asi que
-				// hay que separarla.
-				ArrayList<String> nom = new ArrayList<>();
-	
-				//StringTokenizer st = new StringTokenizer( result.getString("nom") ,"(,)");
 				this.Nombre.PrimerNombre = result.getString("prim_nombre");
 				this.Nombre.SegundoNombre = result.getString("segu_nombre");
 				this.Nombre.Ap_Materno = result.getString("ap_materno");
 				this.Nombre.Ap_Paterno = result.getString("ap_paterno");
-				/*
-				while (st.hasMoreTokens()) {
-					String tok = st.nextToken();
-					System.out.println(tok);
-					nom.add(tok);
-				}
-				*/
-	
-				//System.out.println( "este tiene " + nom.size() + " elementos" );
-				
 				this.Fecha_Contrato = result.getDate("Fecha");
 				this.Dir = result.getString("Dir");
 			}

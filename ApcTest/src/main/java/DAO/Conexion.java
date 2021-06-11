@@ -48,7 +48,7 @@ public class Conexion{
 			state.executeQuery(query);
 		}
 		catch (SQLException e){
-                        // Netbeans marca que esto deberia ser removido.
+			// Netbeans marca que esto deberia ser removido.
 			e.printStackTrace();
 		}
 	}

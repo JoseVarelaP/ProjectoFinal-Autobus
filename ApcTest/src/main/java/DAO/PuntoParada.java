@@ -1,8 +1,5 @@
 package DAO;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import javax.xml.transform.Result;
 
 public class PuntoParada extends DAO {

@@ -1,7 +1,5 @@
 package DAO;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import javax.xml.transform.Result;
 
@@ -17,6 +15,11 @@ public class Autobus extends DAO {
 		this.NumSerie = ID;
 		this.ObtenerInfo();
 	}
+
+	public int ObtenerSerie() { return this.NumSerie; }
+	public String ObtenerFabr() { return this.Fabricante; }
+	public Date ObtenerFecha() { return this.Fabricado; }
+	public int ObtenerCapacidad() { return this.Capacidad; }
 
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.

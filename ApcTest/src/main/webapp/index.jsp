@@ -36,7 +36,7 @@
 			<%
 				Conexion conexion = new Conexion( "joseluis" );
 				DAO administrador = new DAO( conexion.getConnection() );
-				String[] cons = { "nombre", "edad" };
+				// String[] cons = { "nombre", "edad" };
 				
 				int res = administrador.ConteoConsulta( "conductor" );
 				ArrayList<Conductor> conductores = new ArrayList<>();
@@ -44,7 +44,17 @@
 				for( int i = 1; i <= res; i++ )
 				{
 					Conductor c = new Conductor( conexion.getConnection(), i );
-					conductores.add( c );
+					if( c.ObtenerInfo() )
+					{
+						out.println( c.ObtenerNombreCompleto() + "\t" );
+						out.println( c.PrimerNombre() );
+						out.println( c.SegundoNombre() );
+						out.println( c.ApellidoPaterno() );
+						out.println( c.ApellidoMaterno() );
+						out.println( c.FechaContrato() );
+						out.println( c.Direccion() + "<br>" );
+						conductores.add( c );
+					}
 				}
 				
 				// Procesa nombres a una lista.

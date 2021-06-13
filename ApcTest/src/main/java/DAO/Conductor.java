@@ -1,7 +1,6 @@
 package DAO;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.Optional;
 
 import javax.xml.transform.Result;
 
@@ -24,13 +23,29 @@ public class Conductor extends DAO {
 		super(c);
 		this.ID = ID;
 		this.Nombre = new Nombre();
-		this.ObtenerInfo();
+	}
+
+	public String PrimerNombre() { return Optional.ofNullable(this.Nombre.PrimerNombre).orElse(""); }
+	public String SegundoNombre() { return Optional.ofNullable(this.Nombre.SegundoNombre).orElse(""); }
+	public String ApellidoPaterno() { return Optional.ofNullable(this.Nombre.Ap_Paterno).orElse(""); }
+	public String ApellidoMaterno() { return Optional.ofNullable(this.Nombre.Ap_Materno).orElse(""); }
+	public Date FechaContrato() { return this.Fecha_Contrato; }
+	public String Direccion() { return Optional.ofNullable(this.Dir).orElse(""); }
+
+	public String ObtenerNombreCompleto()
+	{
+		return String.format( "%s %s %s %s",
+					this.PrimerNombre(),
+					this.SegundoNombre(),
+					this.ApellidoPaterno(),
+					this.ApellidoMaterno()
+				);
 	}
 
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public void ObtenerInfo()
+	public boolean ObtenerInfo()
 	{
 		ResultSet result = this.Consulta(
 			String.format("SELECT num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", this.ID)
@@ -39,7 +54,7 @@ public class Conductor extends DAO {
 		if( result == null )
 		{
 			System.out.println("Whoops, "+ this.ID +" tuvo un resultado nulo.");
-			return;
+			return false;
 		}
 
 		try{
@@ -57,15 +72,45 @@ public class Conductor extends DAO {
 		} catch (SQLException e)
 		{
 			System.out.println(e);
+			return false;
 		}
+
+		return true;
 	}
 
 	/**
 	 * Realiza la señal devuelta al servidor de que queremos registrar nuevos datos
 	 * provenientes de donde estabamos.
 	 */
-	public void ActualizarInformacion()
+	public boolean ActualizarInformacion()
 	{
+		// TODO: Actualizar esta dirección directo en postgres.
+		ResultSet result = this.Consulta(
+			String.format("UPDATE num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", this.ID)
+		);
+	}
+	
+	// some
+	public void CambiarID(int n)
+	{
+		this.ID = n;
+	}
 
+	public void CambiarNombre( Nombre nl )
+	{
+		this.Nombre.PrimerNombre = nl.PrimerNombre;
+		this.Nombre.SegundoNombre = nl.SegundoNombre;
+		this.Nombre.Ap_Materno = nl.Ap_Materno;
+		this.Nombre.Ap_Paterno = nl.Ap_Paterno;
+	}
+	
+	public void CambiarFecha( Date lvm )
+	{
+		this.Fecha_Contrato = lvm;
+	}
+
+	public void CambiarDireccion( String Dir )
+	{
+		this.Dir = Dir;
 	}
 }

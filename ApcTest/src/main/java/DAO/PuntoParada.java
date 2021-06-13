@@ -1,6 +1,5 @@
 package DAO;
 import java.sql.*;
-import javax.xml.transform.Result;
 
 public class PuntoParada extends DAO {
 	int Ind_Parada;
@@ -10,16 +9,15 @@ public class PuntoParada extends DAO {
 	{
 		super(c);
 		this.Ind_Parada = ID;
-		this.ObtenerInfo();
 	}
 
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public void ObtenerInfo()
+	public void ObtenerInfo( int ID )
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT fabricante as fab, nombreparada as npar FROM punto_parada WHERE Ind_Parada = %s;", this.NumSerie)
+			String.format("SELECT ind_parada as IND, nombre_parada as Nombre FROM punto_parada WHERE Ind_Parada = %s;", ID)
 		);
 		
 		if( result == null )
@@ -31,8 +29,8 @@ public class PuntoParada extends DAO {
 		try{
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
-				this.Ind_Parada = Integer.parseInt(result.getString("fab"));
-				this.NombreParada = result.getDate("npar");
+				this.Ind_Parada = Integer.parseInt(result.getString("IND"));
+				this.NombreParada = result.getDate("Nombre");
 			}
 		} catch (SQLException e)
 		{

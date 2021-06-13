@@ -2,8 +2,6 @@ package DAO;
 import java.sql.*;
 import java.util.Optional;
 
-import javax.xml.transform.Result;
-
 class Nombre {
 	String PrimerNombre;
 	String SegundoNombre;

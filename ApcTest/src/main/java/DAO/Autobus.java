@@ -1,8 +1,6 @@
 package DAO;
 import java.sql.*;
 
-import javax.xml.transform.Result;
-
 public class Autobus extends DAO {
 	int NumSerie;
 	String Fabricante;

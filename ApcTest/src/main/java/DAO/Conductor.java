@@ -24,6 +24,7 @@ public class Conductor extends DAO {
 
 	public int ObtenerID() { return this.ID; }
 	public String PrimerNombre() { return Optional.ofNullable(this.Nombre.PrimerNombre).orElse(""); }
+	public int Edad() { return this.Edad; }
 	public String SegundoNombre() { return Optional.ofNullable(this.Nombre.SegundoNombre).orElse(""); }
 	public String ApellidoPaterno() { return Optional.ofNullable(this.Nombre.Ap_Paterno).orElse(""); }
 	public String ApellidoMaterno() { return Optional.ofNullable(this.Nombre.Ap_Materno).orElse(""); }
@@ -46,7 +47,7 @@ public class Conductor extends DAO {
 	public boolean ObtenerInfo( int numID )
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", numID)
+			String.format("SELECT num_conductor as ID, edad as Ed, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", numID)
 		);
 		
 		if( result == null )
@@ -59,6 +60,8 @@ public class Conductor extends DAO {
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
 				this.ID = Integer.parseInt(result.getString("ID"));
+
+				this.Edad = Integer.parseInt(result.getString("Ed"));
 	
 				this.Nombre.PrimerNombre = result.getString("prim_nombre");
 				this.Nombre.SegundoNombre = result.getString("segu_nombre");

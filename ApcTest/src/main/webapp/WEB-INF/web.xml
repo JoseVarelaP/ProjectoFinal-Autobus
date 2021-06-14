@@ -6,15 +6,6 @@
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
 >
 	<servlet>
-		<servlet-name>HolaMundo</servlet-name>
-		<servlet-class>PaquetesWeb.HolaMundo</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>HolaMundo</servlet-name>
-		<url-pattern>/HolaMundo</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
 		<servlet-name>RegistrarEmpleado</servlet-name>
 		<servlet-class>PaquetesWeb.RegistrarEmpleado</servlet-class>
 	</servlet>

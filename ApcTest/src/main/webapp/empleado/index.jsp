@@ -62,11 +62,11 @@
 					<th><% out.print( c.Direccion() ); %></th>
 					<th>
 						<% int num = c.ObtenerID(); %>
-						<% String ubicacion = String.format("./index.jsp?CID=%s", num); %>
+						<% String ubicacion = String.format("./editar.jsp?CID=%s", num); %>
 						<a href= <%= ubicacion %> >Editar</a>
 					</th>
 					<th>
-						<form action="/HolaMundo">
+						<form action="RegistrarEmpleado" method="GET">
 							<input type="submit" name= <%= num %> ></input>
 						</form>
 					</th>

@@ -66,7 +66,7 @@
 						<a href= <%= ubicacion %> >Editar</a>
 					</th>
 					<th>
-						<form action="${pageContext.request.contextPath}/ConductorURL" method="post">
+						<form action="/HolaMundo" method="post">
 							<input type="submit" name= <%= num %> ></input>
 						</form>
 					</th>

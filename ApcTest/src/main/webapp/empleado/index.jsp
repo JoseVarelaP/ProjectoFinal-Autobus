@@ -1,7 +1,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*" %>
-<%@ page import="javax.servlet.*, java.text.*" %>
+<%@ page import="java.text.*" %>
 <%@ page import="DAO.*" %>
 
 <!--DOCTYPE html-->
@@ -66,7 +66,7 @@
 						<a href= <%= ubicacion %> >Editar</a>
 					</th>
 					<th>
-						<form action="/HolaMundo" method="post">
+						<form action="/HolaMundo">
 							<input type="submit" name= <%= num %> ></input>
 						</form>
 					</th>

@@ -1,15 +1,17 @@
-package web;
+package PaquetesWeb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 
-@WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
+// @WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
 public class HolaMundo extends HttpServlet{
 	//Peticion GET
 	@Override

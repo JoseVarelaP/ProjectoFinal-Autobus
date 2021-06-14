@@ -43,10 +43,10 @@ public class Conductor extends DAO {
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public boolean ObtenerInfo()
+	public boolean ObtenerInfo( int numID )
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", this.ID)
+			String.format("SELECT num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", numID)
 		);
 		
 		if( result == null )

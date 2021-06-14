@@ -23,10 +23,10 @@ public class Rutas extends DAO {
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public boolean ObtenerInfo()
+	public boolean ObtenerInfo(int numID)
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT num_ruta as ID, dest_inicio as dinicio, dest_final as dfinal, descripcion as desc FROM rutas WHERE num_ruta = %s;", this.ID)
+			String.format("SELECT num_ruta as ID, dest_inicio as dinicio, dest_final as dfinal, descripcion as desc FROM rutas WHERE num_ruta = %s;", numID)
 		);
 		
 		if( result == null )

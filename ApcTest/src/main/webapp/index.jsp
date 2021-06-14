@@ -12,6 +12,7 @@
 		<title>Servicio de Autobuses</title>
 	</head>
 	<script src="./js/empleado.js"></script>
+	<!--
 	<script>
 		const GenerarListadoObjetos = ( Lista ) =>
 		{
@@ -23,6 +24,7 @@
 			return divconv
 		}
 	</script>
+	-->
 	<body>
 		<div class="header">
 			<img src="./img/autobus.png">
@@ -43,19 +45,20 @@
 				
 				for( int i = 1; i <= res; i++ )
 				{
-					Conductor c = new Conductor( conexion.getConnection(), i );
-					if( c.ObtenerInfo() )
-					{
-						out.println( c.ObtenerNombreCompleto() + "\t" );
-						out.println( c.PrimerNombre() );
-						out.println( c.SegundoNombre() );
-						out.println( c.ApellidoPaterno() );
-						out.println( c.ApellidoMaterno() );
-						out.println( c.FechaContrato() );
-						out.println( c.Direccion() + "<br>" );
+					Conductor c = new Conductor( conexion.getConnection() );
+					if( c.ObtenerInfo( i ) )
 						conductores.add( c );
-					}
 				}
+
+				// Agrega el listado de opciones para utilizar.
+				// TODO: Esto es para el proceso de interactuar con los otros grupos.
+				/*
+				out.println( "<label for='conductores'>Conductor:</label>" );
+				out.println( "<select name='conductores' id='conductores'>" );
+				for( Conductor c : conductores )
+					out.println( String.format("<option value='%s'>%s</option>", c.ObtenerID(), c.ObtenerNombreCompleto()) );
+				out.println( "</select>" );
+				*/
 				
 				// Procesa nombres a una lista.
 				// out.println( administrador.ConteoConsulta( "conductor", null ) );
@@ -91,6 +94,27 @@
 				}
 				*/
 			%>
+
+			<!-- Hora de agregar los nombres y colocarlos en sus grupos. -->
+			<table>
+				<tr>
+					<th>Nombre de Conductor</th>
+					<th>Fecha Contratado</th>
+					<th>Dirección</th>
+					<th>Editar</th>
+					<th>Eliminar</th>
+				</tr>
+				<%
+					for( Conductor c : conductores )
+					{
+						out.println("<tr>");
+						out.println( String.format("<th>%s</th><th>%s</th><th>%s</th>", c.ObtenerNombreCompleto(), c.FechaContrato(), c.Direccion()) );
+						out.println( "<th><button>Editar</button></th>" );
+						out.println( "<th><button>Eliminar</button></th>" );
+						out.println("</tr>");
+					}
+				%>
+			</table>
 		</ul>
 	</body>
 </html>

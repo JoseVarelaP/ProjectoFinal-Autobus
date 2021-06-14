@@ -1,5 +1,3 @@
-alert("yes")
-
 // Genera la lista del nombre para la persona.
 const GenerarListadoObjetos = ( Lista ) =>
 {

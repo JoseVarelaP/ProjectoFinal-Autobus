@@ -39,9 +39,9 @@ public class Autobus extends DAO {
 				// Tenemos datos! hora de registrarlos.
 				// this.NumSerie = Integer.parseInt(result.getString("ID"));
 
-				this.Fabricante = result.getDate("fabricante");
+				this.Fabricante = result.getString("fabricante");
 				this.Fabricado = result.getDate("fabricado");
-				this.Capacidad = result.getDate("capacidad");
+				this.Capacidad = result.getInt("capacidad");
 			}
 		} catch (SQLException e)
 		{

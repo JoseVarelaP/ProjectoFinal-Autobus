@@ -7,17 +7,17 @@ public class Rutas extends DAO {
 	PuntoParada dest_final;
 	String Desc;
 
-	public Rutas(Connection c, int ID)
+	public Rutas(Connection c)
 	{
 		super(c);
-		this.num_ruta = ID;
-		this.dest_inicio = new PuntoParada();
-		this.dest_final = new PuntoParada();
+		// this.num_ruta = ID;
+		this.dest_inicio = new PuntoParada(c);
+		this.dest_final = new PuntoParada(c);
 	}
 
-	public String NumRuta() { return this.num_ruta; }
-	public String DestInicio() { return this.dest_inicio; }
-	public String DestFinal() { return this.dest_final; }
+	public int NumRuta() { return this.num_ruta; }
+	public PuntoParada DestInicio() { return this.dest_inicio; }
+	public PuntoParada DestFinal() { return this.dest_final; }
 	public String Descripcion() { return this.Desc; }
 
 	/**
@@ -31,7 +31,7 @@ public class Rutas extends DAO {
 		
 		if( result == null )
 		{
-			System.out.println("Whoops, "+ this.ID +" tuvo un resultado nulo.");
+			System.out.println("Whoops, "+ this.num_ruta +" tuvo un resultado nulo.");
 			return false;
 		}
 
@@ -50,16 +50,5 @@ public class Rutas extends DAO {
 		}
 
 		return true;
-	}
-	
-	// some
-	public void CambiarID(int n)
-	{
-		this.ID = n;
-	}
-
-	public void CambiarDireccion( String Dir )
-	{
-		this.Dir = Dir;
 	}
 }

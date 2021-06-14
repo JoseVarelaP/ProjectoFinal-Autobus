@@ -16,13 +16,13 @@ public class Conductor extends DAO {
 	Date Fecha_Contrato;
 	String Dir;
 
-	public Conductor(Connection c, int ID)
+	public Conductor(Connection c)
 	{
 		super(c);
-		this.ID = ID;
 		this.Nombre = new Nombre();
 	}
 
+	public int ObtenerID() { return this.ID; }
 	public String PrimerNombre() { return Optional.ofNullable(this.Nombre.PrimerNombre).orElse(""); }
 	public String SegundoNombre() { return Optional.ofNullable(this.Nombre.SegundoNombre).orElse(""); }
 	public String ApellidoPaterno() { return Optional.ofNullable(this.Nombre.Ap_Paterno).orElse(""); }
@@ -86,6 +86,8 @@ public class Conductor extends DAO {
 		ResultSet result = this.Consulta(
 			String.format("UPDATE num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", this.ID)
 		);
+		
+		return result != null;
 	}
 	
 	// some
@@ -110,5 +112,10 @@ public class Conductor extends DAO {
 	public void CambiarDireccion( String Dir )
 	{
 		this.Dir = Dir;
+	}
+
+	public void EliminarEntrada()
+	{
+		System.out.println("Eliminando...");
 	}
 }

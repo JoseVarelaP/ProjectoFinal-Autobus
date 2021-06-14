@@ -5,10 +5,9 @@ public class PuntoParada extends DAO {
 	int Ind_Parada;
 	String NombreParada;
 
-	public PuntoParada(Connection c, int ID)
+	public PuntoParada(Connection c)
 	{
 		super(c);
-		this.Ind_Parada = ID;
 	}
 
 	/**
@@ -30,7 +29,7 @@ public class PuntoParada extends DAO {
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
 				this.Ind_Parada = Integer.parseInt(result.getString("IND"));
-				this.NombreParada = result.getDate("Nombre");
+				this.NombreParada = result.getString("Nombre");
 			}
 		} catch (SQLException e)
 		{

@@ -10,7 +10,7 @@
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
 	</head>
-	<% ArrayList<Conductor> conductores = new ArrayList<>(); %>
+	<% ArrayList<Viajes> vj = new ArrayList<>(); %>
 	<body>
 		<div class="header">
 			<img src="../img/autobus.png">
@@ -24,20 +24,12 @@
 			<%
 				Conexion conexion = new Conexion( "joseluis" );
 				DAO administrador = new DAO( conexion.getConnection() );
-				
-				int res = administrador.ConteoConsulta( "conductor" );
-				
-				/*
-					Probablemente tengamos algun conductor por eliminar,
-					asi que buscaremos por medio de la URL de la pagina para realizar
-					la acción.
-				*/
-				for( int ids : administrador.Identificadores( "num_conductor", "conductor" ) )
-				{
-					Conductor c = new Conductor( conexion.getConnection() );
+
+				administrador.Identificadores( "num_viaje", "viajes" ).forEach( ids -> {
+					Viajes c = new Viajes( conexion.getConnection() );
 					if( c.ObtenerInfo( ids ) )
-						conductores.add( c );
-				}
+						vj.add( c );
+				});
 			%>
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
@@ -45,21 +37,21 @@
 				<a href="./crear.jsp?MD=0">Crear Entrada</a>
 				<table>
 					<tr>
-						<th>Nombre de Conductor</th>
-						<th>Edad</th>
-						<th>Fecha Contratado</th>
-						<th>Dirección</th>
+						<th>Hora Partida</th>
+						<th>Hora Llegada</th>
+						<th>Ruta</th>
+						<th>Conductor</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
-					<% for( Conductor c : conductores ) { %>
+					<% for( Viajes v : vj ) { %>
 					<tr>
-						<th><% out.print( c.ObtenerNombreCompleto() ); %></th>
-						<th><% out.print( c.Edad() ); %></th>
-						<th><% out.print( c.FechaContrato() ); %></th>
-						<th><% out.print( c.Direccion() ); %></th>
+						<th><% out.print( v.HoraPartida().toString() ); %></th>
+						<th><% out.print( v.HoraLlegada().toString() ); %></th>
+						<th><% out.print( v.RutaAUsar().Descripcion() ); %></th>
+						<th><% out.print( v.ConductorAsignado().ObtenerNombreCompleto() ); %></th>
 						<th>
-							<% int num = c.ObtenerID(); %>
+							<% int num = v.NumViaje(); %>
 							<% String ubicacion = String.format("./editar.jsp?CID=%s&MD=2", num); %>
 							<a href= <%= ubicacion %> >Editar</a>
 						</th>

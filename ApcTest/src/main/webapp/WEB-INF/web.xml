@@ -41,6 +41,15 @@
 		<url-pattern>/rutas/AdminRutas</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AdminViajes</servlet-name>
+		<servlet-class>PaquetesWeb.AdminViajes</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminViajes</servlet-name>
+		<url-pattern>/rutas/AdminViajes</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>
 			30

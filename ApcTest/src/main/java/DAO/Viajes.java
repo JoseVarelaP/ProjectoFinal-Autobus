@@ -1,30 +1,32 @@
 package DAO;
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class Viajes extends DAO {
 	int num_viaje;
-	Date horaPartida;
-	Date horaLlegada;
+	LocalDateTime horaPartida;
+	LocalDateTime horaLlegada;
 	Rutas rutaUsarFK;
 	Conductor conductorFK;
 
-	public Viajes(Connection c, int ID)
+	public Viajes(Connection c)
 	{
 		super(c);
-		this.num_viaje = ID;
 		this.rutaUsarFK = new Rutas(c);
 		this.conductorFK = new Conductor(c);
 	}
 
 	public int NumViaje() { return this.num_viaje; }
-	public Date HoraPartida() { return this.horaPartida; }
-	public Date HoraLlegada() { return this.horaLlegada; }
+	public LocalDateTime HoraPartida() { return this.horaPartida; }
+	public LocalDateTime HoraLlegada() { return this.horaLlegada; }
 	public Rutas RutaAUsar() { return this.rutaUsarFK; }
 	public Conductor ConductorAsignado() { return this.conductorFK; }
 
 	public void NumViaje( int d ) { this.num_viaje = d; }
-	public void HoraPartida( Date d ) { this.horaPartida = d; }
-	public void HoraLlegada( Date d ) { this.horaLlegada = d; }
+	public void HoraPartida( LocalDateTime d ) { this.horaPartida = d; }
+	public void HoraLlegada( LocalDateTime d ) { this.horaLlegada = d; }
 	public void RutaAUsar( Rutas d ) { this.rutaUsarFK = d; }
 	public void ConductorAsignado( Conductor d ) { this.conductorFK = d; }
 
@@ -47,8 +49,15 @@ public class Viajes extends DAO {
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
 				this.num_viaje = Integer.parseInt(result.getString("numv"));
-				this.horaPartida = result.getDate("hpa");
-				this.horaLlegada = result.getDate("hpl");
+
+				this.horaPartida = Instant.ofEpochMilli(result.getDate("hpa").getTime())
+					.atZone(ZoneId.systemDefault())
+					.toLocalDateTime();
+
+				this.horaLlegada = Instant.ofEpochMilli(result.getDate("hpl").getTime())
+					.atZone(ZoneId.systemDefault())
+					.toLocalDateTime();
+
 				this.rutaUsarFK.ObtenerInfo( Integer.parseInt(result.getString("raufk")) );
 				this.conductorFK.ObtenerInfo( Integer.parseInt(result.getString("cfk")) );
 			}

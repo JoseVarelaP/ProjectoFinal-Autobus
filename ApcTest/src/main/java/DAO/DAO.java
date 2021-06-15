@@ -3,14 +3,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import javax.xml.transform.Result;
-
 public class DAO{
-	private Connection con;
+	private final Connection con;
 
 	public DAO( Connection con )
 	{
 		this.con = con;
+	}
+
+	public void CerrarConexion() throws SQLException
+	{
+		this.con.close();
 	}
 
 	ResultSet Consulta(String query){
@@ -152,7 +155,7 @@ public class DAO{
 			else
 			{
 				//System.out.println( "\""+valores[i][0].substring( 4, valores[i][0].length() )+"\"" );
-				Boolean NecesitaString = (valores[i][0].indexOf("STR_") != -1);
+				Boolean NecesitaString = (valores[i][0].contains("STR_"));
 				Boolean EsNulo = valores[i][1].equals("null");
 				String llaveconv = NecesitaString ? valores[i][0].substring( 4, valores[i][0].length() ) : valores[i][0];
 				String valorconv = (NecesitaString ? ( EsNulo ? "null" : "\'"+valores[i][1]+"\'") : valores[i][1]);
@@ -193,7 +196,7 @@ public class DAO{
 		// Ya que tenemos la informacion procesada para utilizar, vamos a enviarlo.
 		try{
 			System.out.println( conv );
-			ResultSet res = this.Consulta(conv);
+			this.Consulta(conv);
 		} catch (Exception e)
 		{
 			// System.err.println(e.getMessage());
@@ -215,7 +218,7 @@ public class DAO{
 		try{
 			String str = String.format("DELETE FROM %s WHERE %s", tabla, condicion);
 			System.out.println( str );
-			ResultSet res = this.Consulta( str );
+			ResultSet val = this.Consulta( str );
 		} catch (Exception e)
 		{
 			throw new Exception(e);
@@ -236,7 +239,7 @@ public class DAO{
 		try{
 			String str = String.format("UPDATE %s SET %s WHERE %s;", tabla, nuevo_dato, condicion);
 			System.out.println( str );
-			this.Consulta( str );
+			ResultSet val = this.Consulta( str );
 		} catch (Exception e)
 		{
 			throw new Exception(e);

@@ -65,7 +65,7 @@ public class DAO{
 
 	ResultSet SeleccionPorID( String pistaID, String query )
 	{
-		return this.Consulta( String.format( "SELECT %s AS total FROM %s", pistaID, query ) );
+		return this.Consulta( String.format( "SELECT %s AS total FROM %s ORDER BY %s ASC", pistaID, query, pistaID ) );
 	}
 
 	public ArrayList<Integer> Identificadores( String pistaID, String query )

@@ -12,34 +12,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+enum TipoManipulacion{
+	EMP_AGREGAR,
+	EMP_ELIMINAR,
+	EMP_EDITAR
+}
+
 // @WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
 public class AgregarEmpleado extends HttpServlet{
-	//Peticion GET
-	@Override
-	protected void doGet(HttpServletRequest rq, HttpServletResponse rp) throws IOException{
-		System.out.println("aun tengo que mandar cosas..");
+
+	void Agregar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
 		PrintWriter out = rp.getWriter();
 
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
-
-		/*
-		<label for='PNombre'>Primer Nombre:</label>
-		<input type="text" name='PNombre' id='PNombre'></input><br>
-		<label for='SNombre'>Segundo Nombre:</label>
-		<input type="text" name='SNombre' id='SNombre'></input><br>
-		<label for='AplP'>Apellido Parterno:</label>
-		<input type="text" name='AplP' id='AplP'></input><br>
-		<label for='AplM'>Apellido Materno:</label>
-		<input type="text" name='AplM' id='AplM'></input><br>
-		<label for='Edad'>Edad:</label>
-		<input type="text" name='Edad' id='Edad'></input><br>
-		<label for='Fecha'>Fecha de Contratación:</label>
-		<input type="text" name='Fecha' id='Fecha'></input><br>
-		<label for='Dir'>Dirección:</label>
-		<input type="text" name='Dir' id='Dir'></input><br>
-		*/
 
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -66,10 +53,189 @@ public class AgregarEmpleado extends HttpServlet{
 		administrador.Agregar( "conductor", Som );
 		rp.sendRedirect("index.jsp");
 	}
+
+	void Eliminar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
+		Conexion conexion = new Conexion( "joseluis" );
+		DAO administrador = new DAO( conexion.getConnection() );
+		Conductor con = new Conductor( conexion.getConnection() );
+
+		String idABuscar = rq.getParameter("ConID");
+
+		if( idABuscar.isBlank() )
+			return; // Cancela, no hagas nada.
+		
+		int val = Integer.parseInt(rq.getParameter("ConID"));
+		try{
+			administrador.Eliminar( "conductor", "num_conductor = " + val );
+			rp.sendRedirect("index.jsp");
+		} catch(Exception e)
+		{
+			System.out.println( "No se logró eliminar la entrada " + val + "." );
+			System.out.println( e );
+			return;
+		}
+	}
+
+	void Editar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException {
+		rp.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = rp.getWriter();
+
+		Conexion conexion = new Conexion( "joseluis" );
+		DAO administrador = new DAO( conexion.getConnection() );
+		int res = administrador.ConteoConsulta( "conductor" );
+		Conductor con = new Conductor( conexion.getConnection() );
+		con.ObtenerInfo( Integer.parseInt(rq.getParameter("ConID")) );
+
+		Nombre n = new Nombre();
+
+		n.PrimerNombre = rq.getParameter("PNombre");
+		n.SegundoNombre = rq.getParameter("SNombre");
+		n.Ap_Materno = rq.getParameter("AplM");
+		n.Ap_Paterno = rq.getParameter("AplP");
+		
+		con.CambiarEdad( Integer.parseInt(rq.getParameter("Edad")) );
+
+		// Hay que convertir la fecha ya que SQL date es diferente.
+		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
+		con.CambiarFecha( dateObj );
+		
+		con.CambiarDireccion( rq.getParameter("Dir") );
+		con.CambiarNombre( n );
+		con.ActualizarInformacion();
 	
+		rp.sendRedirect("index.jsp");
+	}
+
+	void ConfirmarEdicion(HttpServletRequest rq, HttpServletResponse rp) throws IOException{
+		System.out.println("aun tengo que mandar cosas..");
+		PrintWriter out = rp.getWriter();
+
+		String idABuscar = rq.getParameter("CID");
+
+		if( idABuscar.isBlank() )
+			return; // Cancela, no hagas nada.
+
+		int val = Integer.parseInt(idABuscar);
+
+		if( val <= 0 )
+		{
+			out.print( "<h2>La ID proporcionada no es válida.</h2>" );
+			out.print( "<a href='index.jsp'>Regresar</a>" );
+			return;
+		}
+
+		Conexion conexion = new Conexion( "joseluis" );
+		DAO administrador = new DAO( conexion.getConnection() );
+		Conductor con = new Conductor( conexion.getConnection() );
+		con.ObtenerInfo(val);
+
+		// Ok, ya tenemos la información, hora de mostrarla.
+		if( con.ObtenerID() != 0 )
+		{
+			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
+			out.print( "<form action='RegistrarEmpleado' method='POST'>" );
+			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
+			out.print( "<label for='ConID'>ID de Conductor:</label>" );
+			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
+			out.print( "<label for='PNombre'>Primer Nombre:</label>" );
+			out.print( "<input type='text' name='PNombre' id='PNombre' value=" + con.PrimerNombre() + "></input><br>" );
+			out.print( "<label for='SNombre'>Segundo Nombre:</label>" );
+			out.print( "<input type='text' name='SNombre' id='SNombre' value=" + con.SegundoNombre() + "></input><br>" );
+			out.print( "<label for='AplP'>Apellido Parterno:</label>" );
+			out.print( "<input type='text' name='AplP' id='AplP' value=" + con.ApellidoPaterno() + "></input><br>" );
+			out.print( "<label for='AplM'>Apellido Materno:</label>" );
+			out.print( "<input type='text' name='AplM' id='AplM' value=" + con.ApellidoMaterno() + "></input><br>" );
+			out.print( "<label for='Edad'>Edad:</label>" );
+			out.print( "<input type='text' name='Edad' id='Edad' value=" + con.Edad() + "></input><br>" );
+			out.print( "<label for='Fecha'>Fecha de Contratación:</label>" );
+			out.print( "<input type='date' name='Fecha' id='Fecha' value=" + con.FechaContrato() + "></input><br>" );
+			out.print( "<label for='Dir'>Dirección:</label>" );
+			out.print( "<input type='text' name='Dir' id='Dir' value=" + con.Direccion() + "></input><br>" );
+			out.print( "<input type='submit' value='Submit'>" );
+			out.print( "</form>" );
+		} else {
+			out.print( "<h2>No hay un conductor registrado con este ID.</h2>" );
+			out.print( "<a href='index.jsp'>Regresar</a>" );
+		}
+	}
+
+	void ConfirmarEliminacion(HttpServletRequest rq, HttpServletResponse rp) throws IOException {
+		PrintWriter out = rp.getWriter();
+
+		String idABuscar = rq.getParameter("CID");
+
+		if( idABuscar.isBlank() )
+			return; // Cancela, no hagas nada.
+
+		int val = Integer.parseInt(idABuscar);
+
+		if( val <= 0 )
+		{
+			out.print( "<h2>La ID proporcionada no es válida.</h2>" );
+			out.print( "<a href='index.jsp'>Regresar</a>" );
+			return;
+		}
+
+		Conexion conexion = new Conexion( "joseluis" );
+		DAO administrador = new DAO( conexion.getConnection() );
+		Conductor con = new Conductor( conexion.getConnection() );
+		con.ObtenerInfo(val);
+
+		// Ok, ya tenemos la información, hora de mostrarla.
+		if( con.ObtenerID() != 0 )
+		{
+			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
+
+			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );
+			out.print( "<form action='EliminarEmpleado' method='POST'>" );
+			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
+			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
+			out.print( "<input type='submit' value='Eliminar Entrada'>" );
+			out.print( "</form>" );
+		} else {
+			out.print( "<h2>No hay un conductor registrado con este ID.</h2>" );
+			out.print( "<a href='index.jsp'>Regresar</a>" );
+		}
+	}
+
+	//Peticion GET
+	// Se recibe esto cuando se carga la pagina sin datos.
+	@Override
+	protected void doGet(HttpServletRequest rq, HttpServletResponse rp) throws IOException {
+		switch( TipoManipulacion.values()[ Integer.parseInt(rq.getParameter("MD")) ] ){
+			// La adición de datos no tiene una confirmación, asi que podemos dejarlo
+			// como está.
+			case EMP_EDITAR:
+				ConfirmarEdicion(rq, rp);
+				break;
+			case EMP_ELIMINAR:
+				ConfirmarEliminacion(rq, rp);
+				break;
+
+			default:
+				break;
+		}
+	}
+	
+	// Se recibe esto cuando se manda la información.
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
-		doGet(request, response);
+		switch( TipoManipulacion.values()[ Integer.parseInt(request.getParameter("MD")) ] ){
+			case EMP_AGREGAR:
+				Agregar(request, response);
+				break;
+			case EMP_EDITAR:
+				Editar(request, response);
+				break;
+			case EMP_ELIMINAR:
+				Eliminar(request, response);
+				break;
+
+			default:
+				break;
+		}
    }
 }

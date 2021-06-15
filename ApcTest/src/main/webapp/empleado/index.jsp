@@ -43,7 +43,7 @@
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<center>
-				<a href="./crear.jsp">Crear Entrada</a>
+				<a href="./crear.jsp?MD=0">Crear Entrada</a>
 				<table>
 					<tr>
 						<th>Nombre de Conductor</th>
@@ -61,11 +61,11 @@
 						<th><% out.print( c.Direccion() ); %></th>
 						<th>
 							<% int num = c.ObtenerID(); %>
-							<% String ubicacion = String.format("./editar.jsp?CID=%s", num); %>
+							<% String ubicacion = String.format("./editar.jsp?CID=%s&MD=2", num); %>
 							<a href= <%= ubicacion %> >Editar</a>
 						</th>
 						<th>
-							<% ubicacion = String.format("./eliminar.jsp?CID=%s", num); %>
+							<% ubicacion = String.format("./eliminar.jsp?CID=%s&MD=1", num); %>
 							<a href= <%= ubicacion %> >Eliminar</a>
 						</th>
 					</tr>

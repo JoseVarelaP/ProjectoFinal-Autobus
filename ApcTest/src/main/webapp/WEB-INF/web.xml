@@ -6,24 +6,6 @@
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
 >
 	<servlet>
-		<servlet-name>RegistrarEmpleado</servlet-name>
-		<servlet-class>PaquetesWeb.RegistrarEmpleado</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>RegistrarEmpleado</servlet-name>
-		<url-pattern>/empleado/RegistrarEmpleado</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>EliminarEmpleado</servlet-name>
-		<servlet-class>PaquetesWeb.EliminarEmpleado</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EliminarEmpleado</servlet-name>
-		<url-pattern>/empleado/EliminarEmpleado</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
 		<servlet-name>AgregarEmpleado</servlet-name>
 		<servlet-class>PaquetesWeb.AgregarEmpleado</servlet-class>
 	</servlet>

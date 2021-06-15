@@ -3,6 +3,7 @@ import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class Conductor extends DAO {
@@ -82,9 +83,14 @@ public class Conductor extends DAO {
 	 * Realiza la señal devuelta al servidor de que queremos registrar nuevos datos
 	 * provenientes de donde estabamos.
 	 */
+
+	/**
+	 * Actualiza información existente de una entrada en la base de datos.
+	 * Asume que el elemento ya existe.
+	 * @return Resultado si la inserción fue exitosa.
+	 */
 	public boolean ActualizarInformacion()
 	{
-		// TODO: Actualizar esta dirección directo en postgres.
 		String condicion = "num_conductor = " + this.ID;
 
 		try{
@@ -101,6 +107,38 @@ public class Conductor extends DAO {
 			return false;
 		}
 		
+		return true;
+	}
+
+	/**
+	 * Registra la información de esta clase como una nueva entrada en la base de datos.
+	 * @return Resultado si la inserción fue exitosa.
+	 */
+	public boolean RegistrarInformacion()
+	{
+		// Hay que convertir la fecha ya que SQL date es diferente.
+		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dateObj = LocalDate.parse( this.Fecha_Contrato.toString(), DTF );
+		
+		// Esta tabla son elementos para agregar una entrada.
+		String Som[][] = {
+			{"num_conductor", "DEFAULT"},
+			{"edad", Integer.toString(this.Edad)},
+			
+			{"__ROW","true"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
+			// Esta tabla representa un valor multi proveniente de un type.
+			{"STR_prim_nombre", this.Nombre.PrimerNombre },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_segu_nombre", this.Nombre.SegundoNombre },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_ap_paterno", this.Nombre.Ap_Paterno },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_ap_materno",this.Nombre.Ap_Materno },		// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			
+			{"__ROW","false"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
+
+			{"STR_fecha_contrat", dateObj.toString()}, 	// BANDERA, Vea DAO.ConvertirDatos para detalles.
+			{"STR_direccion", this.Dir }			// BANDERA, Vea DAO.ConvertirDatos para detalles.
+		};
+
+		super.Agregar( "conductor", Som );
 		return true;
 	}
 	

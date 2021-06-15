@@ -6,12 +6,12 @@
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
 >
 	<servlet>
-		<servlet-name>AdminEmpleado</servlet-name>
-		<servlet-class>PaquetesWeb.AdminEmpleado</servlet-class>
+		<servlet-name>AdminConductor</servlet-name>
+		<servlet-class>PaquetesWeb.AdminConductor</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>AdminEmpleado</servlet-name>
-		<url-pattern>/empleado/AdminEmpleado</url-pattern>
+		<servlet-name>AdminConductor</servlet-name>
+		<url-pattern>/empleado/AdminConductor</url-pattern>
 	</servlet-mapping>
 
 	<session-config>

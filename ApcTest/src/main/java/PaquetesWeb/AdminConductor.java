@@ -19,38 +19,32 @@ enum TipoManipulacion{
 }
 
 // @WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
-public class AdminEmpleado extends HttpServlet{
+public class AdminConductor extends HttpServlet{
 
 	void Agregar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
 		PrintWriter out = rp.getWriter();
 
 		Conexion conexion = new Conexion( "joseluis" );
-		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
-
+		
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
-		
-		// Esta tabla son elementos para agregar una entrada.
-		String Som[][] = {
-			{"num_conductor", "DEFAULT"},
-			{"edad", rq.getParameter("Edad")},
-			
-			{"__ROW","true"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
-			// Esta tabla representa un valor multi proveniente de un type.
-			{"STR_prim_nombre", rq.getParameter("PNombre") },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
-			{"STR_segu_nombre", rq.getParameter("SNombre") },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
-			{"STR_ap_paterno", rq.getParameter("AplP") },	// BANDERA, Vea DAO.ConvertirDatos para detalles.
-			{"STR_ap_materno",rq.getParameter("AplM") },		// BANDERA, Vea DAO.ConvertirDatos para detalles.
-			
-			{"__ROW","false"}, // BANDERA, Vea DAO.ConvertirDatos para detalles.
+		con.CambiarFecha(dateObj);
 
-			{"STR_fecha_contrat", dateObj.toString()}, 	// BANDERA, Vea DAO.ConvertirDatos para detalles.
-			{"STR_direccion", rq.getParameter("Dir")}			// BANDERA, Vea DAO.ConvertirDatos para detalles.
-		};
+		Nombre n = new Nombre();
 
-		administrador.Agregar( "conductor", Som );
+		n.PrimerNombre = rq.getParameter("PNombre");
+		n.SegundoNombre = rq.getParameter("SNombre");
+		n.Ap_Paterno = rq.getParameter("AplP");
+		n.Ap_Materno = rq.getParameter("AplM");
+
+		con.CambiarNombre( n );
+		con.CambiarEdad( Integer.parseInt(rq.getParameter("Edad")) );
+		con.CambiarDireccion( rq.getParameter("Dir") );
+
+		con.RegistrarInformacion();
+
 		conexion.close();
 		rp.sendRedirect("index.jsp");
 	}
@@ -83,8 +77,6 @@ public class AdminEmpleado extends HttpServlet{
 		PrintWriter out = rp.getWriter();
 
 		Conexion conexion = new Conexion( "joseluis" );
-		DAO administrador = new DAO( conexion.getConnection() );
-		int res = administrador.ConteoConsulta( "conductor" );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo( Integer.parseInt(rq.getParameter("ConID")) );
 
@@ -130,7 +122,6 @@ public class AdminEmpleado extends HttpServlet{
 		}
 
 		Conexion conexion = new Conexion( "joseluis" );
-		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
 		conexion.close();
@@ -183,7 +174,6 @@ public class AdminEmpleado extends HttpServlet{
 		}
 
 		Conexion conexion = new Conexion( "joseluis" );
-		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
 		conexion.close();

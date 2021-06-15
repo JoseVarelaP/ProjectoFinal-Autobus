@@ -148,6 +148,11 @@ public class Conductor extends DAO {
 		this.ID = n;
 	}
 
+	public int ObtenerTiempoExperiencia()
+	{
+		return LocalDate.now().compareTo( this.Fecha_Contrato );
+	}
+
 	public void CambiarNombre( Nombre nl )
 	{
 		this.Nombre.PrimerNombre = nl.PrimerNombre;

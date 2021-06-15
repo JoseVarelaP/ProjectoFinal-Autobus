@@ -48,6 +48,7 @@
 						<th>Nombre de Conductor</th>
 						<th>Edad</th>
 						<th>Fecha Contratado</th>
+						<th>Años de Experiencia</th>
 						<th>Dirección</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
@@ -57,6 +58,7 @@
 						<th><% out.print( c.ObtenerNombreCompleto() ); %></th>
 						<th><% out.print( c.Edad() ); %></th>
 						<th><% out.print( c.FechaContrato() ); %></th>
+						<th><% out.print( c.ObtenerTiempoExperiencia() ); %></th>
 						<th><% out.print( c.Direccion() ); %></th>
 						<th>
 							<% int num = c.ObtenerID(); %>

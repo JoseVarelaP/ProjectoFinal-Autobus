@@ -14,6 +14,15 @@
 		<url-pattern>/empleado/RegistrarEmpleado</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>EliminarEmpleado</servlet-name>
+		<servlet-class>PaquetesWeb.EliminarEmpleado</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EliminarEmpleado</servlet-name>
+		<url-pattern>/empleado/EliminarEmpleado</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>
 			30

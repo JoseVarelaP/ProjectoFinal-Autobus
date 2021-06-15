@@ -61,6 +61,20 @@ public class DAO{
 		return 0;
 	}
 
+	public int PrimerValorConsulta( String pistaID, String query )
+	{
+		ResultSet result = this.Consulta( String.format( "SELECT %s AS numID FROM %s", pistaID ,query ) );
+		try{
+			if( result.next() )
+			{
+				return result.getInt("numID");
+			}
+		} catch (SQLException e) {
+			return 0;
+		}
+		return 0;
+	}
+
 	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String[] elemento_buscar )
 	{
 
@@ -188,7 +202,7 @@ public class DAO{
 		return true;
 	}
 
-	Boolean Eliminar( String tabla, String condicion ) throws Exception
+	public Boolean Eliminar( String tabla, String condicion ) throws Exception
 	{
 		// Verifica datos que recibimos, y que no estén vacios. No queremos eliminar una tabla completa, no?
 		if( tabla.isEmpty() || condicion.isEmpty() )

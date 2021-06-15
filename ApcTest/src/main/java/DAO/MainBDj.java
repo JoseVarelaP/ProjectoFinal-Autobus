@@ -31,7 +31,12 @@ public class MainBDj{
 		administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );
 
 		System.out.println("\n-- Eliminando una entrada de lista. --\n");
-		administrador.Eliminar( "conductor", "num_conductor = 5" );
+		try{
+		    administrador.Eliminar( "conductor", "num_conductor = 5" );
+		} catch( Exception e )
+		{
+		    return;
+		}
 
 		System.out.println("\n-- Agregando una entrada de lista. --\n");
 		// (5,31,row('Gonzalo','Torres','Romero',null), '2010-04-12', 'Dir Cinco'),
@@ -57,7 +62,12 @@ public class MainBDj{
 		administrador.Agregar( "conductor", Som );
 
 		System.out.println("\n-- Modificando una entrada de lista. --\n");
-		administrador.Modificar( "conductor" , "edad = 10", "num_conductor = 5");
+		try{
+		    administrador.Modificar( "conductor" , "edad = 10", "num_conductor = 5");
+		} catch( Exception e )
+		{
+		    return;
+		}
 
 		System.out.println("\n-- Mostrando nueva lista. --\n");
 		administrador.ProcesarConsulta( "SELECT * FROM conductor", cons );

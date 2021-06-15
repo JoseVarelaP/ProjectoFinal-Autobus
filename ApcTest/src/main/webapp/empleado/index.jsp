@@ -1,10 +1,8 @@
 <%@ page isELIgnored="false" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.io.*, java.util.*" %>
-<%@ page import="java.text.*" %>
+<%@ page import="java.io.*, java.util.ArrayList" %>
 <%@ page import="DAO.*" %>
 
-<!--DOCTYPE html-->
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>
@@ -34,16 +32,13 @@
 					asi que buscaremos por medio de la URL de la pagina para realizar
 					la acción.
 				*/
-
-				for( int i = 1; i <= res; i++ )
+				int primerValor = administrador.PrimerValorConsulta( "num_conductor" ,"conductor" );
+				for( int i = primerValor; i <= res; i++ )
 				{
 					Conductor c = new Conductor( conexion.getConnection() );
 					if( c.ObtenerInfo( i ) )
 						conductores.add( c );
 				}
-			%>
-
-			<%
 			%>
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
@@ -69,9 +64,8 @@
 							<a href= <%= ubicacion %> >Editar</a>
 						</th>
 						<th>
-							<form action="RegistrarEmpleado" method="GET">
-								<input type="submit" name= <%= num %> ></input>
-							</form>
+							<% ubicacion = String.format("./eliminar.jsp?CID=%s", num); %>
+							<a href= <%= ubicacion %> >Eliminar</a>
 						</th>
 					</tr>
 					<% } %>

@@ -1,8 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ page import="java.io.*, java.util.*" %>
-<%@ page import="java.text.*" %>
-
-<!--DOCTYPE html-->
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>

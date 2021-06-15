@@ -17,7 +17,7 @@
 				<h2 class="Titulo">Listado de conductores</h2>
 			</div>
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
-			<jsp:include page="AgregarEmpleado" />
+			<jsp:include page="AdminEmpleado" />
 		</ul>
 	</body>
 </html>

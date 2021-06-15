@@ -19,7 +19,7 @@ enum TipoManipulacion{
 }
 
 // @WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
-public class AgregarEmpleado extends HttpServlet{
+public class AdminEmpleado extends HttpServlet{
 
 	void Agregar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
 		PrintWriter out = rp.getWriter();
@@ -51,6 +51,7 @@ public class AgregarEmpleado extends HttpServlet{
 		};
 
 		administrador.Agregar( "conductor", Som );
+		conexion.close();
 		rp.sendRedirect("index.jsp");
 	}
 
@@ -67,6 +68,7 @@ public class AgregarEmpleado extends HttpServlet{
 		int val = Integer.parseInt(rq.getParameter("ConID"));
 		try{
 			administrador.Eliminar( "conductor", "num_conductor = " + val );
+			conexion.close();
 			rp.sendRedirect("index.jsp");
 		} catch(Exception e)
 		{
@@ -105,6 +107,7 @@ public class AgregarEmpleado extends HttpServlet{
 		con.CambiarNombre( n );
 		con.ActualizarInformacion();
 	
+		conexion.close();
 		rp.sendRedirect("index.jsp");
 	}
 
@@ -130,12 +133,13 @@ public class AgregarEmpleado extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
+		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.ObtenerID() != 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
-			out.print( "<form action='RegistrarEmpleado' method='POST'>" );
+			out.print( "<form action='AdminEmpleado' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
 			out.print( "<label for='ConID'>ID de Conductor:</label>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
@@ -182,6 +186,7 @@ public class AgregarEmpleado extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
+		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.ObtenerID() != 0 )
@@ -189,7 +194,7 @@ public class AgregarEmpleado extends HttpServlet{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );
-			out.print( "<form action='EliminarEmpleado' method='POST'>" );
+			out.print( "<form action='AdminEmpleado' method='POST'>" );
 			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 			out.print( "<input type='submit' value='Eliminar Entrada'>" );

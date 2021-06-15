@@ -58,4 +58,9 @@ public class Conexion{
 	{
 		return this.con;
 	}
+
+	public void close()
+	{
+		this.con = null;
+	}
 }

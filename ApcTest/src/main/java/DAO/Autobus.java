@@ -11,10 +11,9 @@ public class Autobus extends DAO {
 	LocalDate Fabricado;
 	int Capacidad;
 
-	public Autobus(Connection c, int ID)
+	public Autobus(Connection c)
 	{
 		super(c);
-		this.NumSerie = ID;
 		this.ObtenerInfo();
 	}
 
@@ -46,7 +45,7 @@ public class Autobus extends DAO {
 		try{
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
-				// this.NumSerie = Integer.parseInt(result.getString("ID"));
+				 this.NumSerie = Integer.parseInt(result.getString("ID"));
 
 				this.Fabricante = result.getString("fabricante");
 				this.Fabricado = Instant.ofEpochMilli(result.getDate("fabricado").getTime())

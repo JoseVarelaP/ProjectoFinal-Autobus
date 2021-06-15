@@ -41,8 +41,18 @@ public class PuntoParada extends DAO {
 	 * Realiza la señal devuelta al servidor de que queremos registrar nuevos datos
 	 * provenientes de donde estabamos.
 	 */
-	public void ActualizarInformacion()
+	public boolean ActualizarInformacion()
 	{
+		String condicion = "ind_parada = " + this.Ind_Parada;
 
+		try{
+			this.Modificar( "punto_parada" , "nombre_parada = '" + this.NombreParada +"'", condicion );
+		} catch (Exception e)
+		{
+			System.out.println(e);
+			return false;
+		}
+		
+		return true;
 	}
 }

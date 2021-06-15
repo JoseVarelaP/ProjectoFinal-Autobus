@@ -12,14 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-enum TipoManipulacion{
-	EMP_AGREGAR,
-	EMP_ELIMINAR,
-	EMP_EDITAR
-}
-
 // @WebServlet(name="HolaMundo", urlPatterns={"/HolaMundo"})
-public class AdminEmpleado extends HttpServlet{
+public class AdminAutobus extends HttpServlet{
 
 	void Agregar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
 		PrintWriter out = rp.getWriter();
@@ -27,11 +21,6 @@ public class AdminEmpleado extends HttpServlet{
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
 		Autobus ab = new Autobus( conexion.getConnection() );
-
-		public void CambiarSerie( int d ) { this.NumSerie = d; }
-		public void CambiarFabr( String d ) { this.Fabricante = d; }
-		public void CambiarFecha( LocalDate d ) { this.Fabricado = d; }
-		public void CambiarCapacidad( int d ) { this.Capacidad = d; }
 
 		ab.CambiarFabr( rq.getParameter("fabr") );
 		
@@ -77,11 +66,6 @@ public class AdminEmpleado extends HttpServlet{
 
 		Conexion conexion = new Conexion( "joseluis" );
 		Autobus con = new Autobus( conexion.getConnection() );
-
-		public void CambiarSerie( int d ) { this.NumSerie = d; }
-		public void CambiarFabr( String d ) { this.Fabricante = d; }
-		public void CambiarFecha( LocalDate d ) { this.Fabricado = d; }
-		public void CambiarCapacidad( int d ) { this.Capacidad = d; }
 
 		con.CambiarFabr( rq.getParameter("fabr") );
 		

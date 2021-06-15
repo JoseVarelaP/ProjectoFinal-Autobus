@@ -32,7 +32,6 @@
 					asi que buscaremos por medio de la URL de la pagina para realizar
 					la acción.
 				*/
-				int primerValor = administrador.PrimerValorConsulta( "num_conductor" ,"conductor" );
 				for( int ids : administrador.Identificadores( "num_conductor", "conductor" ) )
 				{
 					Conductor c = new Conductor( conexion.getConnection() );

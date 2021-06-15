@@ -38,8 +38,9 @@ public class PuntoParada extends DAO {
 	}
 
 	/**
-	 * Realiza la señal devuelta al servidor de que queremos registrar nuevos datos
-	 * provenientes de donde estabamos.
+	 * Actualiza información existente de una entrada en la base de datos.
+	 * Asume que el elemento ya existe.
+	 * @return Resultado si la inserción fue exitosa.
 	 */
 	public boolean ActualizarInformacion()
 	{
@@ -53,6 +54,22 @@ public class PuntoParada extends DAO {
 			return false;
 		}
 		
+		return true;
+	}
+
+	/**
+	 * Registra la información de esta clase como una nueva entrada en la base de datos.
+	 * @return Resultado si la inserción fue exitosa.
+	 */
+	public boolean RegistrarInformacion()
+	{
+		// Esta tabla son elementos para agregar una entrada.
+		String Som[][] = {
+			{"ind_parada", "DEFAULT"},
+			{"STR_nombre_parada", this.NombreParada}
+		};
+
+		super.Agregar( "punto_parada", Som );
 		return true;
 	}
 }

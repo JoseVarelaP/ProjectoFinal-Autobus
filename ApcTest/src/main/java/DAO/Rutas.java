@@ -20,6 +20,11 @@ public class Rutas extends DAO {
 	public PuntoParada DestFinal() { return this.dest_final; }
 	public String Descripcion() { return this.Desc; }
 
+	public void CambiarNumRuta( int d ) { this.num_ruta = d; }
+	public void CambiarDestInicio( PuntoParada d ) { this.dest_inicio = d; }
+	public void CambiarDestFinal( PuntoParada d ) { this.dest_final = d; }
+	public void CambiarDescripcion( String d ) { this.Desc = d; }
+
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
@@ -49,6 +54,46 @@ public class Rutas extends DAO {
 			return false;
 		}
 
+		return true;
+	}
+
+	/**
+	 * Actualiza información existente de una entrada en la base de datos.
+	 * Asume que el elemento ya existe.
+	 * @return Resultado si la inserción fue exitosa.
+	 */
+	public boolean ActualizarInformacion()
+	{
+		String condicion = "num_ruta = " + this.num_ruta;
+
+		try{
+			this.Modificar( "rutas" , "dest_inicio = " + this.dest_inicio.Ind_Parada, condicion );
+			this.Modificar( "rutas" , "dest_final = " + this.dest_final.Ind_Parada, condicion );
+			this.Modificar( "rutas" , "descripcion = '" + this.Desc + "'", condicion );
+		} catch (Exception e)
+		{
+			System.out.println(e);
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * Registra la información de esta clase como una nueva entrada en la base de datos.
+	 * @return Resultado si la inserción fue exitosa.
+	 */
+	public boolean RegistrarInformacion()
+	{
+		// Esta tabla son elementos para agregar una entrada.
+		String Som[][] = {
+			{"num_ruta", "DEFAULT"},
+			{"dest_inicio", Integer.toString(this.dest_inicio.Ind_Parada)},
+			{"dest_final", Integer.toString(this.dest_final.Ind_Parada)},
+			{"STR_descripcion", this.Desc}
+		};
+
+		super.Agregar( "rutas", Som );
 		return true;
 	}
 }

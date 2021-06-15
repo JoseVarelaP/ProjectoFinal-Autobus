@@ -17,15 +17,15 @@ public class Autobus extends DAO {
 		this.ObtenerInfo();
 	}
 
-	public int ObtenerSerie() { return this.NumSerie; }
-	public String ObtenerFabr() { return this.Fabricante; }
-	public LocalDate ObtenerFecha() { return this.Fabricado; }
-	public int ObtenerCapacidad() { return this.Capacidad; }
+	public int Serie() { return this.NumSerie; }
+	public String Fabr() { return this.Fabricante; }
+	public LocalDate Fecha() { return this.Fabricado; }
+	public int Capacidad() { return this.Capacidad; }
 
-	public void CambiarSerie( int d ) { this.NumSerie = d; }
-	public void CambiarFabr( String d ) { this.Fabricante = d; }
-	public void CambiarFecha( LocalDate d ) { this.Fabricado = d; }
-	public void CambiarCapacidad( int d ) { this.Capacidad = d; }
+	public void Serie( int d ) { this.NumSerie = d; }
+	public void Fabr( String d ) { this.Fabricante = d; }
+	public void Fecha( LocalDate d ) { this.Fabricado = d; }
+	public void Capacidad( int d ) { this.Capacidad = d; }
 
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
@@ -61,8 +61,9 @@ public class Autobus extends DAO {
 	}
 
 	/**
-	 * Realiza la señal devuelta al servidor de que queremos registrar nuevos datos
-	 * provenientes de donde estabamos.
+	 * Actualiza información existente de una entrada en la base de datos.
+	 * Asume que el elemento ya existe.
+	 * @return Resultado si la inserción fue exitosa.
 	 */
 	public boolean ActualizarInformacion()
 	{

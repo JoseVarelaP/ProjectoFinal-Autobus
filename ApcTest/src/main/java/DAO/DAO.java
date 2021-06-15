@@ -36,14 +36,6 @@ public class DAO{
 		return result;
 	}
 
-	/*
-	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String elemento_buscar )
-	{
-		String[] val = { elemento_buscar };
-		return ProcesarConsulta( query, val );
-	}
-	*/
-
 	/**
 	 * Regresa el conteo de objetos que se requieran de query.
 	 * @param query	Las tablas a buscar la cantidad de elementos. 
@@ -81,20 +73,6 @@ public class DAO{
 			return r;
 		}
 		return r;
-	}
-
-	public int PrimerValorConsulta( String pistaID, String query )
-	{
-		ResultSet result = this.SeleccionPorID(pistaID, query);
-		try{
-			if( result.next() )
-			{
-				return result.getInt("total");
-			}
-		} catch (SQLException e) {
-			return 0;
-		}
-		return 0;
 	}
 
 	public ArrayList<ArrayList<String>> ProcesarConsulta( String query, String[] elemento_buscar )
@@ -140,6 +118,7 @@ public class DAO{
 		return resultados;
 	}
 
+	/*
 	public String ConvierteLista( ArrayList<String> s )
 	{
 		String conv = "[";
@@ -148,6 +127,7 @@ public class DAO{
 		conv += "]";
 		return conv;
 	}
+	*/
 
 	String ConvertirDatos( String[][] valores, Boolean convertir_llave )
 	{

@@ -22,14 +22,14 @@ public class AdminAutobus extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Autobus ab = new Autobus( conexion.getConnection() );
 
-		ab.CambiarFabr( rq.getParameter("fabr") );
+		ab.Fabr( rq.getParameter("fabr") );
 		
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
-		ab.CambiarFecha( dateObj );
+		ab.Fecha( dateObj );
 
-		ab.CambiarCapacidad( Integer.parseInt( rq.getParameter("cap") ) );
+		ab.Capacidad( Integer.parseInt( rq.getParameter("cap") ) );
 
 		ab.RegistrarInformacion();
 
@@ -67,14 +67,14 @@ public class AdminAutobus extends HttpServlet{
 		Conexion conexion = new Conexion( "joseluis" );
 		Autobus con = new Autobus( conexion.getConnection() );
 
-		con.CambiarFabr( rq.getParameter("fabr") );
+		con.Fabr( rq.getParameter("fabr") );
 		
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
-		con.CambiarFecha( dateObj );
+		con.Fecha( dateObj );
 
-		con.CambiarCapacidad( Integer.parseInt( rq.getParameter("cap") ) );
+		con.Capacidad( Integer.parseInt( rq.getParameter("cap") ) );
 
 		con.RegistrarInformacion();
 	
@@ -110,7 +110,7 @@ public class AdminAutobus extends HttpServlet{
 		if( con.ObtenerID() != 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
-			out.print( "<form action='AdminEmpleado' method='POST'>" );
+			out.print( "<form action='AdminConductor' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
 			out.print( "<label for='ConID'>Numero de Serie:</label>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
@@ -157,7 +157,7 @@ public class AdminAutobus extends HttpServlet{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );
-			out.print( "<form action='AdminEmpleado' method='POST'>" );
+			out.print( "<form action='AdminConductor' method='POST'>" );
 			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 			out.print( "<input type='submit' value='Eliminar Entrada'>" );

@@ -17,7 +17,7 @@
 				<h2 class="Titulo">Listado de conductores</h2>
 			</div>
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
-			<form action="AdminEmpleado" method="POST">
+			<form action="AdminConductor" method="POST">
 				<input type="hidden" name='MD' id='MD' value=0></input><br>
 				<label for='PNombre'>Primer Nombre:</label>
 				<input type="text" name='PNombre' id='PNombre'></input><br>

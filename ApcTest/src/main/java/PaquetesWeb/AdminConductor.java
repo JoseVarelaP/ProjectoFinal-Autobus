@@ -130,7 +130,7 @@ public class AdminConductor extends HttpServlet{
 		if( con.ObtenerID() != 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
-			out.print( "<form action='AdminEmpleado' method='POST'>" );
+			out.print( "<form action='AdminConductor' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
 			out.print( "<label for='ConID'>ID de Conductor:</label>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
@@ -184,7 +184,8 @@ public class AdminConductor extends HttpServlet{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );
-			out.print( "<form action='AdminEmpleado' method='POST'>" );
+			out.print( "<form action='AdminConductor' method='POST'>" );
+			out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
 			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 			out.print( "<input type='submit' value='Eliminar Entrada'>" );
@@ -202,11 +203,11 @@ public class AdminConductor extends HttpServlet{
 		switch( TipoManipulacion.values()[ Integer.parseInt(rq.getParameter("MD")) ] ){
 			// La adición de datos no tiene una confirmación, asi que podemos dejarlo
 			// como está.
-			case EMP_EDITAR:
-				ConfirmarEdicion(rq, rp);
-				break;
 			case EMP_ELIMINAR:
 				ConfirmarEliminacion(rq, rp);
+				break;
+			case EMP_EDITAR:
+				ConfirmarEdicion(rq, rp);
 				break;
 
 			default:
@@ -222,11 +223,11 @@ public class AdminConductor extends HttpServlet{
 			case EMP_AGREGAR:
 				Agregar(request, response);
 				break;
-			case EMP_EDITAR:
-				Editar(request, response);
-				break;
 			case EMP_ELIMINAR:
 				Eliminar(request, response);
+				break;
+			case EMP_EDITAR:
+				Editar(request, response);
 				break;
 
 			default:

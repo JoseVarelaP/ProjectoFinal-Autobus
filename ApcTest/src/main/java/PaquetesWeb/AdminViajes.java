@@ -23,13 +23,15 @@ public class AdminViajes extends HttpServlet{
 		Viajes ab = new Viajes( conexion.getConnection() );
 
 		// Hay que convertir la fecha ya que SQL date es diferente.
-		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		// Ya que no hay soporte de tiempo y hora al mismo tiempo como una manera de entrada valida,
 		// hay que combinarlos en un metodo de tiempo que DateTimeFormatter puede utilizar.
 		String Partida1Combinada = rq.getParameter("HoraPartidaDia") + " " + rq.getParameter("HoraPartidaHora");
 		String Llegada1Combinada = rq.getParameter("HoraLlegadaDia") + " " + rq.getParameter("HoraLlegadaHora");
 
+		ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
+		
 		LocalDateTime datePartida = LocalDateTime.parse( Partida1Combinada, DTF );
 		LocalDateTime dateLlegada = LocalDateTime.parse( Llegada1Combinada, DTF );
 
@@ -116,13 +118,21 @@ public class AdminViajes extends HttpServlet{
 
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
-		Rutas con = new Rutas( conexion.getConnection() );
+		Viajes con = new Viajes( conexion.getConnection() );
 		con.ObtenerInfo(val);
 
-		ArrayList<PuntoParada> Rut = new ArrayList<>();
+		ArrayList<Rutas> Rut = new ArrayList<>();
+		ArrayList<Conductor> Con = new ArrayList<>();
 
-		administrador.Identificadores( "ind_parada", "punto_parada" ).forEach(ids -> {
-			PuntoParada c = new PuntoParada( conexion.getConnection() );
+		administrador.Identificadores( "num_conductor", "conductor" ).forEach(ids -> {
+			Conductor c = new Conductor( conexion.getConnection() );
+			if (c.ObtenerInfo( ids )) {
+				Con.add( c );
+			}
+	    });
+
+		administrador.Identificadores( "num_ruta", "rutas" ).forEach(ids -> {
+			Rutas c = new Rutas( conexion.getConnection() );
 			if (c.ObtenerInfo( ids )) {
 				Rut.add( c );
 			}
@@ -131,27 +141,37 @@ public class AdminViajes extends HttpServlet{
 		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
-		if( con.NumRuta() != 0 )
+		if( con.NumViaje() != 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
-			out.print( "<form action='AdminRutas' method='POST'>" );
+			out.print( "<form action='AdminViajes' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
 			out.print( "<label for='ConID'>ID:</label>" );
-			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.NumRuta() + " readonly='readonly'></input><br>" );
-			out.print( "<label for='DestInicio'>Punto de Inicio:</label>" );
-			out.print( "<select type='text' name='DestInicio' id='DestInicio'>" );
-			Rut.forEach(r -> {
-			    out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.NumViaje() + " readonly='readonly'></input><br>" );
+
+			out.print( "<label for='HoraPartidaDia'>Fecha de Partida:</label>" );
+			out.print( "<input type='date' name='HoraPartidaDia' id='HoraPartidaDia' value='" + con.HoraPartida().toLocalDate().toString() + "'></input>" );
+			out.print( "<input type='time' name='HoraPartidaHora' id='HoraPartidaHora' value='" + con.HoraPartida().toLocalTime().toString() + "'></input><br>" );
+
+			out.print( "<label for='HoraLlegadaDia'>Fecha de Llegada:</label>" );
+			out.print( "<input type='date' name='HoraLlegadaDia' id='HoraLlegadaDia' value='" + con.HoraLlegada().toLocalDate().toString() + "'></input>" );
+			out.print( "<input type='time' name='HoraLlegadaHora' id='HoraLlegadaHora' value='" + con.HoraLlegada().toLocalTime().toString() + "'></input><br>" );
+
+			// Seccion para seleccion conductor
+			out.print( "<label for='conductorFK'>Conductor:</label>" );
+			out.print( "<select type='text' name='conductorFK' id='conductorFK' value=" + con.ConductorAsignado().ObtenerID() + ">" );
+			Con.forEach(r -> {
+			    out.print( String.format( "<option value='%s'>%s</option>", r.ObtenerID() , r.ObtenerNombreCompleto() ) );
 			});
 			out.print( "</select><br>" );
-			out.print( "<label for='DestFinal'>Punto de Llegada:</label>" );
-			out.print( "<select type='text' name='DestFinal' id='DestFinal'>" );
+			
+			// Seccion para seleccion ruta
+			out.print( "<label for='rutaUsarFK'>Ruta a usar:</label>" );
+			out.print( "<select type='text' name='rutaUsarFK' id='rutaUsarFK' value=" + con.RutaAUsar().NumRuta() + ">" );
 			Rut.forEach(r -> {
-			    out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+			    out.print( String.format( "<option value='%s'>%s</option>", r.NumRuta() , r.Descripcion() ) );
 			});
 			out.print( "</select><br>" );
-			out.print( "<label for='Desc'>Descripción:</label>" );
-			out.print( "<input type='text' name='Desc' id='Desc' value=" + con.Descripcion() + "></input><br>" );
 			out.print( "<input type='submit' value='Submit'>" );
 			out.print( "</form>" );
 		} else {

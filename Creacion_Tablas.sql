@@ -51,8 +51,8 @@ create table rutas(
 
 create table viajes(
 	num_viaje		serial,
-	hor_partida		date not null,
-	hor_llegada		date not null,
+	hor_partida		timestamp not null,
+	hor_llegada		timestamp not null,
 	-- Utilizara el valor de rutas para marcar el lugar de
 	-- partida y llegada.
 	ruta_a_usar_fk	int	not null,

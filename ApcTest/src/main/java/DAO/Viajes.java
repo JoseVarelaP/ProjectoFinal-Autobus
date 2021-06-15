@@ -1,8 +1,7 @@
 package DAO;
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class Viajes extends DAO {
 	int num_viaje;
@@ -36,7 +35,7 @@ public class Viajes extends DAO {
 	public boolean ObtenerInfo(int ID)
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT num_viaje as numv, hor_partida as hpa, hor_llegada as hpl, ruta_a_usar_fk as raufk, conductor as cfk FROM viajes WHERE num_viaje = %s;", ID)
+			String.format("SELECT num_viaje as numv, hor_partida as hpa, hor_llegada as hpl, ruta_a_usar_fk as raufk, conductor_fk as cfk FROM viajes WHERE num_viaje = %s;", ID)
 		);
 		
 		if( result == null )
@@ -45,18 +44,15 @@ public class Viajes extends DAO {
 			return false;
 		}
 
+		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
 		try{
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
 				this.num_viaje = Integer.parseInt(result.getString("numv"));
 
-				this.horaPartida = Instant.ofEpochMilli(result.getDate("hpa").getTime())
-					.atZone(ZoneId.systemDefault())
-					.toLocalDateTime();
-
-				this.horaLlegada = Instant.ofEpochMilli(result.getDate("hpl").getTime())
-					.atZone(ZoneId.systemDefault())
-					.toLocalDateTime();
+				this.horaPartida = LocalDateTime.parse(result.getString("hpa"), DTF);
+				this.horaLlegada = LocalDateTime.parse(result.getString("hpl"), DTF);
 
 				this.rutaUsarFK.ObtenerInfo( Integer.parseInt(result.getString("raufk")) );
 				this.conductorFK.ObtenerInfo( Integer.parseInt(result.getString("cfk")) );
@@ -80,10 +76,10 @@ public class Viajes extends DAO {
 		String condicion = "num_viaje = " + this.num_viaje;
 
 		try{
-			this.Modificar( "viajes" , "hor_partida = '" + this.horaPartida.toString() + "'", condicion );
-			this.Modificar( "viajes" , "hor_llegada = '" + this.horaLlegada.toString() + "'", condicion );
-			this.Modificar( "viajes" , "ruta_a_usar_fk = " + this.rutaUsarFK.num_ruta , condicion );
-			this.Modificar( "viajes" , "conductor_fk = " + this.conductorFK.ID , condicion );
+			super.Modificar( "viajes" , "hor_partida = '" + this.horaPartida.toString() + "'", condicion );
+			super.Modificar( "viajes" , "hor_llegada = '" + this.horaLlegada.toString() + "'", condicion );
+			super.Modificar( "viajes" , "ruta_a_usar_fk = " + this.rutaUsarFK.num_ruta , condicion );
+			super.Modificar( "viajes" , "conductor_fk = " + this.conductorFK.ID , condicion );
 		} catch (Exception e)
 		{
 			System.out.println(e);
@@ -100,10 +96,16 @@ public class Viajes extends DAO {
 	public boolean RegistrarInformacion()
 	{
 		// Esta tabla son elementos para agregar una entrada.
+		String PartConv = this.horaPartida.toString();
+		String LlegConv = this.horaLlegada.toString();
+
+		System.out.println( PartConv );
+		System.out.println( LlegConv );
+
 		String Som[][] = {
 			{"num_viaje", "DEFAULT"},
-			{"STR_hor_partida", this.horaPartida.toString()},
-			{"STR_hor_llegada", this.horaLlegada.toString()},
+			{"STR_hor_partida", PartConv},
+			{"STR_hor_llegada", LlegConv},
 			{"ruta_a_usar_fk", Integer.toString(this.rutaUsarFK.num_ruta)},
 			{"conductor_fk", Integer.toString(this.conductorFK.ID)}
 		};

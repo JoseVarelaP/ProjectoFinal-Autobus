@@ -47,7 +47,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AdminViajes</servlet-name>
-		<url-pattern>/rutas/AdminViajes</url-pattern>
+		<url-pattern>/viajes/AdminViajes</url-pattern>
 	</servlet-mapping>
 
 	<session-config>

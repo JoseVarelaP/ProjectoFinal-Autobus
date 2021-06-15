@@ -2,19 +2,13 @@ package PaquetesWeb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 import DAO.*;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -78,7 +72,6 @@ public class RegistrarEmpleado extends HttpServlet{
 	throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.print("Datos que obtuve. <br>");
 
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
@@ -92,7 +85,10 @@ public class RegistrarEmpleado extends HttpServlet{
 		n.SegundoNombre = request.getParameter("SNombre");
 		n.Ap_Materno = request.getParameter("AplM");
 		n.Ap_Paterno = request.getParameter("AplP");
+		
+		con.CambiarEdad( Integer.parseInt(request.getParameter("Edad")) );
 
+		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
 		LocalDate dateObj = LocalDate.parse( request.getParameter("Fecha"), DTF );
@@ -100,16 +96,8 @@ public class RegistrarEmpleado extends HttpServlet{
 		
 		con.CambiarDireccion( request.getParameter("Dir") );
 		con.CambiarNombre( n );
-		
-		out.print( String.format(
-			"%s<br>%s<br>%s<br>",
-			con.ObtenerID(),
-			con.ObtenerNombreCompleto(),
-			con.Direccion()
-		) );
-
 		con.ActualizarInformacion();
 	
-		out.print("Terminé. <br>");
+		response.sendRedirect("index.jsp");
    }
 }

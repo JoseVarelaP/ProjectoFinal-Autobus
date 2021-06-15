@@ -5,12 +5,12 @@ import java.sql.*;
  * @author joseluis
  */
 public class Conexion{
-	private static String user = "postgres";
-	private static String pswd = "";
-	private static String bd = "";
-	private static String server = "jdbc:postgresql://localhost:5432/"+bd;
-	private static String driver = "org.postgresql.Driver";
-	private static Connection con; 
+	final private String user = "postgres";
+	private String pswd = "";
+	private String bd = "";
+	private String server = "";
+	final private String driver = "org.postgresql.Driver";
+	private Connection con; 
 	
 	public Conexion( String DatabaseName ){
 		if( DatabaseName.isEmpty() )
@@ -24,15 +24,15 @@ public class Conexion{
 
 		try{
 			// Solamente necesario en java < 1.6.
-			Class.forName(driver);
-			this.con = DriverManager.getConnection(server, user, pswd);
+			Class.forName(this.driver);
+			this.con = DriverManager.getConnection(this.server, this.user, this.pswd);
 			
 			if(this.con != null){
-				System.out.println("La conexión a la BD: "+ server +" " + "se realizo al 100%");
+				System.out.println("La conexión a la BD: "+ this.server +" " + "se realizo al 100%");
 			}
 		}
 		catch(SQLException ex){
-			System.out.println("Error al intentar conectarse a la BD"+  server);
+			System.out.println("Error al intentar conectarse a la BD"+  this.server);
 			this.con = null;
 		}
 		catch(ClassNotFoundException ex){
@@ -42,14 +42,15 @@ public class Conexion{
 	}
 	
 	public void setQuery (String query){
-		Statement state = null;
+		// Statement state = null;
 		try{
-			state = con.createStatement();
-			state.executeQuery(query);
+			// state = con.createStatement();
+			// state.executeQuery(query);
+			con.createStatement().executeQuery(query);
 		}
 		catch (SQLException e){
 			// Netbeans marca que esto deberia ser removido.
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

@@ -127,6 +127,11 @@ public class Conductor extends DAO {
 	{
 		this.Dir = Dir;
 	}
+	
+	public void CambiarEdad( int nuevaEdad )
+	{
+		this.Edad = nuevaEdad;
+	}
 
 	public void EliminarEntrada()
 	{

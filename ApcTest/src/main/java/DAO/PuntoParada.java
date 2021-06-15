@@ -10,19 +10,25 @@ public class PuntoParada extends DAO {
 		super(c);
 	}
 
+	public int Ind_Parada() { return this.Ind_Parada; }
+	public String NombreParada() { return this.NombreParada; }
+
+	public void Ind_Parada( int d ) { this.Ind_Parada = d; }
+	public void NombreParada( String d ) { this.NombreParada = d; }
+
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public void ObtenerInfo( int ID )
+	public boolean ObtenerInfo( int ID )
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT ind_parada as IND, nombre_parada as Nombre FROM punto_parada WHERE Ind_Parada = %s;", ID)
+			String.format("SELECT ind_parada as IND, nombre_parada as Nombre FROM punto_parada WHERE ind_Parada = %s;", ID)
 		);
 		
 		if( result == null )
 		{
 			System.out.println("Whoops, "+ this.Ind_Parada +" tuvo un resultado nulo.");
-			return;
+			return false;
 		}
 		
 		try{
@@ -35,6 +41,7 @@ public class PuntoParada extends DAO {
 		{
 			System.out.println(e);
 		}
+		return true;
 	}
 
 	/**

@@ -10,7 +10,7 @@
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
 	</head>
-	<% ArrayList<Conductor> conductores = new ArrayList<>(); %>
+	<% ArrayList<PuntoParada> Paradas = new ArrayList<>(); %>
 	<body>
 		<div class="header">
 			<img src="../img/autobus.png">
@@ -19,7 +19,7 @@
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
-				<h2 class="Titulo">Listado de conductores</h2>
+				<h2 class="Titulo">Listado de Paradas</h2>
 			</div>
 			<%
 				Conexion conexion = new Conexion( "joseluis" );
@@ -32,11 +32,11 @@
 					asi que buscaremos por medio de la URL de la pagina para realizar
 					la acción.
 				*/
-				for( int ids : administrador.Identificadores( "num_conductor", "conductor" ) )
+				for( int ids : administrador.Identificadores( "ind_parada", "punto_parada" ) )
 				{
-					Conductor c = new Conductor( conexion.getConnection() );
+					PuntoParada c = new PuntoParada( conexion.getConnection() );
 					if( c.ObtenerInfo( ids ) )
-						conductores.add( c );
+						Paradas.add( c );
 				}
 			%>
 
@@ -45,21 +45,15 @@
 				<a href="./crear.jsp?MD=0">Crear Entrada</a>
 				<table>
 					<tr>
-						<th>Nombre de Conductor</th>
-						<th>Edad</th>
-						<th>Fecha Contratado</th>
-						<th>Dirección</th>
+						<th>Parada</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
 					</tr>
-					<% for( Conductor c : conductores ) { %>
+					<% for( PuntoParada c : Paradas ) { %>
 					<tr>
-						<th><% out.print( c.ObtenerNombreCompleto() ); %></th>
-						<th><% out.print( c.Edad() ); %></th>
-						<th><% out.print( c.FechaContrato() ); %></th>
-						<th><% out.print( c.Direccion() ); %></th>
+						<th><% out.print( c.NombreParada() ); %></th>
 						<th>
-							<% int num = c.ObtenerID(); %>
+							<% int num = c.Ind_Parada(); %>
 							<% String ubicacion = String.format("./editar.jsp?CID=%s&MD=2", num); %>
 							<a href= <%= ubicacion %> >Editar</a>
 						</th>

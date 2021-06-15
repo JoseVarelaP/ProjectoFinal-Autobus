@@ -23,6 +23,24 @@
 		<url-pattern>/autobus/AdminAutobus</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AdminPuntoParada</servlet-name>
+		<servlet-class>PaquetesWeb.AdminPuntoParada</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminPuntoParada</servlet-name>
+		<url-pattern>/puntoparada/AdminPuntoParada</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdminRutas</servlet-name>
+		<servlet-class>PaquetesWeb.AdminRutas</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminRutas</servlet-name>
+		<url-pattern>/rutas/AdminRutas</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>
 			30

@@ -14,7 +14,6 @@ public class Autobus extends DAO {
 	public Autobus(Connection c)
 	{
 		super(c);
-		this.ObtenerInfo();
 	}
 
 	public int Serie() { return this.NumSerie; }
@@ -30,22 +29,22 @@ public class Autobus extends DAO {
 	/**
 	 * Realiza la busqueda de la informacion del conductor para registrarlos en la clase.
 	 */
-	public void ObtenerInfo()
+	public boolean ObtenerInfo(int ID)
 	{
 		ResultSet result = this.Consulta(
-			String.format("SELECT fabricante as fabricante, fabricado as fabricado, capacidad as capacidad FROM autobus WHERE num_serie = %s;", this.NumSerie)
+			String.format("SELECT num_serie as num_serie, fabricante as fabricante, fabricado as fabricado, capacidad as capacidad FROM autobus WHERE num_serie = %s;", ID)
 		);
 		
 		if( result == null )
 		{
 			System.out.println("Whoops, "+ this.NumSerie +" tuvo un resultado nulo.");
-			return;
+			return false;
 		}
 		
 		try{
 			while( result.next() ){
 				// Tenemos datos! hora de registrarlos.
-				 this.NumSerie = Integer.parseInt(result.getString("ID"));
+				this.NumSerie = Integer.parseInt(result.getString("num_serie"));
 
 				this.Fabricante = result.getString("fabricante");
 				this.Fabricado = Instant.ofEpochMilli(result.getDate("fabricado").getTime())
@@ -57,7 +56,9 @@ public class Autobus extends DAO {
 		} catch (SQLException e)
 		{
 			System.out.println(e);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -73,6 +74,7 @@ public class Autobus extends DAO {
 			this.Modificar( "autobus" , "fabricante = '" + this.Fabricante +"'", condicion );
 			this.Modificar( "autobus" , "fabricado = '" + this.Fabricado.toString() +"'", condicion );
 			this.Modificar( "autobus" , "capacidad = " + this.Capacidad, condicion );
+			this.Modificar( "autobus" , "num_serie = " + this.NumSerie, condicion );
 		} catch (Exception e)
 		{
 			System.out.println(e);
@@ -94,7 +96,7 @@ public class Autobus extends DAO {
 		
 		// Esta tabla son elementos para agregar una entrada.
 		String Som[][] = {
-			{"num_serie", "DEFAULT"},
+			{"num_serie", Integer.toString(this.NumSerie)},
 			{"STR_fabricante", this.Fabricante},
 			{"STR_fabricado", this.Fabricado.toString()},
 			{"capacidad", Integer.toString(this.Capacidad)}

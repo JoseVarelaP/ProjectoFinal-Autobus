@@ -22,14 +22,15 @@ public class AdminAutobus extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Autobus ab = new Autobus( conexion.getConnection() );
 
-		ab.Fabr( rq.getParameter("fabr") );
+		ab.Fabr( rq.getParameter("fabricante") );
 		
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
+		LocalDate dateObj = LocalDate.parse( rq.getParameter("fabricado"), DTF );
 		ab.Fecha( dateObj );
 
-		ab.Capacidad( Integer.parseInt( rq.getParameter("cap") ) );
+		ab.Serie( Integer.parseInt( rq.getParameter("num_serie") ) );
+		ab.Capacidad( Integer.parseInt( rq.getParameter("capacidad") ) );
 
 		ab.RegistrarInformacion();
 
@@ -42,12 +43,10 @@ public class AdminAutobus extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Autobus con = new Autobus( conexion.getConnection() );
 
-		String idABuscar = rq.getParameter("serID");
+		int val = Integer.parseInt(rq.getParameter("ConID"));
 
-		if( idABuscar.isBlank() )
-			return; // Cancela, no hagas nada.
-		
-		int val = Integer.parseInt(rq.getParameter("serID"));
+		if( val == 0 )
+			return;
 		try{
 			administrador.Eliminar( "autobus", "num_serie = " + val );
 			conexion.close();
@@ -147,17 +146,18 @@ public class AdminAutobus extends HttpServlet{
 
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
-		Conductor con = new Conductor( conexion.getConnection() );
+		Autobus con = new Autobus( conexion.getConnection() );
 		con.ObtenerInfo(val);
 		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
-		if( con.ObtenerID() != 0 )
+		if( con.Serie() > 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
-			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );
-			out.print( "<form action='AdminConductor' method='POST'>" );
+			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.Fabr() +")?</h2>" );
+			out.print( "<form action='AdminAutobus' method='POST'>" );
+			out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
 			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
 			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 			out.print( "<input type='submit' value='Eliminar Entrada'>" );
@@ -175,11 +175,11 @@ public class AdminAutobus extends HttpServlet{
 		switch( TipoManipulacion.values()[ Integer.parseInt(rq.getParameter("MD")) ] ){
 			// La adición de datos no tiene una confirmación, asi que podemos dejarlo
 			// como está.
-			case EMP_EDITAR:
-				ConfirmarEdicion(rq, rp);
-				break;
 			case EMP_ELIMINAR:
 				ConfirmarEliminacion(rq, rp);
+				break;
+			case EMP_EDITAR:
+				ConfirmarEdicion(rq, rp);
 				break;
 
 			default:
@@ -195,11 +195,11 @@ public class AdminAutobus extends HttpServlet{
 			case EMP_AGREGAR:
 				Agregar(request, response);
 				break;
-			case EMP_EDITAR:
-				Editar(request, response);
-				break;
 			case EMP_ELIMINAR:
 				Eliminar(request, response);
+				break;
+			case EMP_EDITAR:
+				Editar(request, response);
 				break;
 
 			default:

@@ -14,6 +14,15 @@
 		<url-pattern>/conductor/AdminConductor</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>AdminAutobus</servlet-name>
+		<servlet-class>PaquetesWeb.AdminAutobus</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminAutobus</servlet-name>
+		<url-pattern>/autobus/AdminAutobus</url-pattern>
+	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>
 			30

@@ -3,6 +3,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.xml.transform.Result;
+
 public class DAO{
 	private Connection con;
 
@@ -61,13 +63,33 @@ public class DAO{
 		return 0;
 	}
 
+	ResultSet SeleccionPorID( String pistaID, String query )
+	{
+		return this.Consulta( String.format( "SELECT %s AS total FROM %s", pistaID, query ) );
+	}
+
+	public ArrayList<Integer> Identificadores( String pistaID, String query )
+	{
+		ResultSet result = this.SeleccionPorID(pistaID, query);
+		ArrayList<Integer> r = new ArrayList<>();
+		try{
+			while(result.next())
+			{
+				r.add( result.getInt("total") );
+			}
+		} catch (SQLException e) {
+			return r;
+		}
+		return r;
+	}
+
 	public int PrimerValorConsulta( String pistaID, String query )
 	{
-		ResultSet result = this.Consulta( String.format( "SELECT %s AS numID FROM %s", pistaID ,query ) );
+		ResultSet result = this.SeleccionPorID(pistaID, query);
 		try{
 			if( result.next() )
 			{
-				return result.getInt("numID");
+				return result.getInt("total");
 			}
 		} catch (SQLException e) {
 			return 0;
@@ -182,7 +204,7 @@ public class DAO{
 		return conv;
 	}
 
-	Boolean Agregar(String tabla, String[][] valores)
+	public Boolean Agregar(String tabla, String[][] valores)
 	{
 		// Tenemos que procesar que tipo de informacion acabamos de recibir para de ahi ingresarlo.
 		String conv = String.format("INSERT INTO %s VALUES (" + this.ConvertirDatos(valores, false), tabla);

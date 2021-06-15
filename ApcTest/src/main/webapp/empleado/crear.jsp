@@ -17,7 +17,7 @@
 				<h2 class="Titulo">Listado de conductores</h2>
 			</div>
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
-			<form action="RegistrarEmpleado" method="POST">
+			<form action="AgregarEmpleado" method="POST">
 				<label for='PNombre'>Primer Nombre:</label>
 				<input type="text" name='PNombre' id='PNombre'></input><br>
 				<label for='SNombre'>Segundo Nombre:</label>
@@ -26,6 +26,10 @@
 				<input type="text" name='AplP' id='AplP'></input><br>
 				<label for='AplM'>Apellido Materno:</label>
 				<input type="text" name='AplM' id='AplM'></input><br>
+				<label for='Edad'>Edad:</label>
+				<input type="text" name='Edad' id='Edad'></input><br>
+				<label for='Fecha'>Fecha de Contratación:</label>
+				<input type="date" name='Fecha' id='Fecha'></input><br>
 				<label for='Dir'>Dirección:</label>
 				<input type="text" name='Dir' id='Dir'></input><br>
 

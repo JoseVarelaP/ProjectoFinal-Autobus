@@ -1,7 +1,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.ArrayList" %>
-<%@ page import="DAO.*" %>
+<%@ page import="DAO.*, java.sql.*" %>
 
 <!DOCTYPE html>
 <html>
@@ -33,16 +33,17 @@
 					la acción.
 				*/
 				int primerValor = administrador.PrimerValorConsulta( "num_conductor" ,"conductor" );
-				for( int i = primerValor; i <= res; i++ )
+				for( int ids : administrador.Identificadores( "num_conductor", "conductor" ) )
 				{
 					Conductor c = new Conductor( conexion.getConnection() );
-					if( c.ObtenerInfo( i ) )
+					if( c.ObtenerInfo( ids ) )
 						conductores.add( c );
 				}
 			%>
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<center>
+				<a href="./crear.jsp">Crear Entrada</a>
 				<table>
 					<tr>
 						<th>Nombre de Conductor</th>

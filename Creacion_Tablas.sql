@@ -6,12 +6,12 @@ create type nombre as(
 );
 
 create table conductor(
-	num_conductor 	serial,
+	num_conductor 	serial primary key,
 	edad			int not null,
 	nombre			nombre	not null,
 	fecha_contrat	date not null,
 	direccion		varchar(30) not null,
-	constraint pk_conductor primary key (num_conductor),
+	--constraint pk_conductor primary key (num_conductor),
 	unique(num_conductor)
 );
 

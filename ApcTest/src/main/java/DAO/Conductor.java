@@ -1,19 +1,15 @@
 package DAO;
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Optional;
-
-class Nombre {
-	String PrimerNombre;
-	String SegundoNombre;
-	String Ap_Paterno;
-	String Ap_Materno;
-}
 
 public class Conductor extends DAO {
 	int ID;
 	Nombre Nombre;
 	int Edad;
-	Date Fecha_Contrato;
+	LocalDate Fecha_Contrato;
 	String Dir;
 
 	public Conductor(Connection c)
@@ -28,7 +24,7 @@ public class Conductor extends DAO {
 	public String SegundoNombre() { return Optional.ofNullable(this.Nombre.SegundoNombre).orElse(""); }
 	public String ApellidoPaterno() { return Optional.ofNullable(this.Nombre.Ap_Paterno).orElse(""); }
 	public String ApellidoMaterno() { return Optional.ofNullable(this.Nombre.Ap_Materno).orElse(""); }
-	public Date FechaContrato() { return this.Fecha_Contrato; }
+	public LocalDate FechaContrato() { return this.Fecha_Contrato; }
 	public String Direccion() { return Optional.ofNullable(this.Dir).orElse(""); }
 
 	public String ObtenerNombreCompleto()
@@ -67,11 +63,14 @@ public class Conductor extends DAO {
 				this.Nombre.SegundoNombre = result.getString("segu_nombre");
 				this.Nombre.Ap_Materno = result.getString("ap_materno");
 				this.Nombre.Ap_Paterno = result.getString("ap_paterno");
-				this.Fecha_Contrato = result.getDate("Fecha");
+				this.Fecha_Contrato = Instant.ofEpochMilli(result.getDate("Fecha").getTime())
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
 				this.Dir = result.getString("Dir");
 			}
 		} catch (SQLException e)
 		{
+			System.out.println("uh oh");
 			System.out.println(e);
 			return false;
 		}
@@ -86,11 +85,23 @@ public class Conductor extends DAO {
 	public boolean ActualizarInformacion()
 	{
 		// TODO: Actualizar esta dirección directo en postgres.
-		ResultSet result = this.Consulta(
-			String.format("UPDATE num_conductor as ID, (nombre).prim_nombre AS prim_nombre, (nombre).segu_nombre AS segu_nombre, (nombre).ap_paterno AS ap_paterno, (nombre).ap_materno AS ap_materno, fecha_contrat as Fecha, direccion as Dir FROM conductor WHERE num_conductor = %s;", this.ID)
-		);
+		String condicion = "num_conductor = " + this.ID;
+
+		try{
+			this.Modificar( "conductor" , "edad = " + this.Edad, condicion );
+			this.Modificar( "conductor" , "nombre.prim_nombre = '" + this.Nombre.PrimerNombre +"'", condicion );
+			this.Modificar( "conductor" , "nombre.segu_nombre = '" + this.Nombre.SegundoNombre +"'", condicion );
+			this.Modificar( "conductor" , "nombre.ap_materno = '" + this.Nombre.Ap_Materno +"'", condicion );
+			this.Modificar( "conductor" , "nombre.ap_paterno = '" + this.Nombre.Ap_Paterno +"'", condicion );
+			this.Modificar( "conductor" , "direccion = '" + this.Dir +"'", condicion );
+			this.Modificar( "conductor" , "fecha_contrat = '" + this.Fecha_Contrato.toString() +"'", condicion );
+		} catch (Exception e)
+		{
+			System.out.println(e);
+			return false;
+		}
 		
-		return result != null;
+		return true;
 	}
 	
 	// some
@@ -107,7 +118,7 @@ public class Conductor extends DAO {
 		this.Nombre.Ap_Paterno = nl.Ap_Paterno;
 	}
 	
-	public void CambiarFecha( Date lvm )
+	public void CambiarFecha( LocalDate lvm )
 	{
 		this.Fecha_Contrato = lvm;
 	}

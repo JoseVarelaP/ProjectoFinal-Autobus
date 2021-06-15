@@ -188,13 +188,12 @@ public class DAO{
 		return true;
 	}
 
-	Boolean Eliminar( String tabla, String condicion )
+	Boolean Eliminar( String tabla, String condicion ) throws Exception
 	{
 		// Verifica datos que recibimos, y que no estén vacios. No queremos eliminar una tabla completa, no?
 		if( tabla.isEmpty() || condicion.isEmpty() )
 		{
-			System.out.println("[Eliminar] No hay suficientes datos disponibles.");
-			return false;
+			throw new Exception("[Eliminar] No hay suficientes datos disponibles.");
 		}
 		// Primero busca la tabla, y verifica que existe.
 		try{
@@ -203,31 +202,28 @@ public class DAO{
 			ResultSet res = this.Consulta( str );
 		} catch (Exception e)
 		{
-			//System.err.println(e.getMessage());
-			return false;
+			throw new Exception(e);
 		}
 
 		// El proceso fue exitoso.
 		return true;
 	}
 
-	Boolean Modificar( String tabla, String nuevo_dato, String condicion )
+	Boolean Modificar( String tabla, String nuevo_dato, String condicion ) throws Exception
 	{
 		// Verifica datos que recibimos, y que no estén vacios. No queremos eliminar una tabla completa, no?
 		if( tabla.isEmpty() || condicion.isEmpty() || nuevo_dato.isEmpty() )
 		{
-			System.out.println("[Modificar] No hay suficientes datos disponibles.");
-			return false;
+			throw new Exception("[Modificar] No hay suficientes datos disponibles.");
 		}
 		// Primero busca la tabla, y verifica que existe.
 		try{
 			String str = String.format("UPDATE %s SET %s WHERE %s;", tabla, nuevo_dato, condicion);
 			System.out.println( str );
-			ResultSet res = this.Consulta( String.format("UPDATE %s SET %s WHERE %s;", tabla, nuevo_dato, condicion) );
+			this.Consulta( str );
 		} catch (Exception e)
 		{
-			//System.err.println(e.getMessage());
-			return false;
+			throw new Exception(e);
 		}
 
 		// El proceso fue exitoso.

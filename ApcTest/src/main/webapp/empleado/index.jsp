@@ -47,32 +47,36 @@
 			%>
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
-			<table>
-				<tr>
-					<th>Nombre de Conductor</th>
-					<th>Fecha Contratado</th>
-					<th>Dirección</th>
-					<th>Editar</th>
-					<th>Eliminar</th>
-				</tr>
-				<% for( Conductor c : conductores ) { %>
-				<tr>
-					<th><% out.print( c.ObtenerNombreCompleto() ); %></th>
-					<th><% out.print( c.FechaContrato() ); %></th>
-					<th><% out.print( c.Direccion() ); %></th>
-					<th>
-						<% int num = c.ObtenerID(); %>
-						<% String ubicacion = String.format("./editar.jsp?CID=%s", num); %>
-						<a href= <%= ubicacion %> >Editar</a>
-					</th>
-					<th>
-						<form action="RegistrarEmpleado" method="GET">
-							<input type="submit" name= <%= num %> ></input>
-						</form>
-					</th>
-				</tr>
-				<% } %>
-			</table>
+			<center>
+				<table>
+					<tr>
+						<th>Nombre de Conductor</th>
+						<th>Edad</th>
+						<th>Fecha Contratado</th>
+						<th>Dirección</th>
+						<th>Editar</th>
+						<th>Eliminar</th>
+					</tr>
+					<% for( Conductor c : conductores ) { %>
+					<tr>
+						<th><% out.print( c.ObtenerNombreCompleto() ); %></th>
+						<th><% out.print( c.Edad() ); %></th>
+						<th><% out.print( c.FechaContrato() ); %></th>
+						<th><% out.print( c.Direccion() ); %></th>
+						<th>
+							<% int num = c.ObtenerID(); %>
+							<% String ubicacion = String.format("./editar.jsp?CID=%s", num); %>
+							<a href= <%= ubicacion %> >Editar</a>
+						</th>
+						<th>
+							<form action="RegistrarEmpleado" method="GET">
+								<input type="submit" name= <%= num %> ></input>
+							</form>
+						</th>
+					</tr>
+					<% } %>
+				</table>
+			</center>
 		</ul>
 	</body>
 </html>

@@ -9,6 +9,12 @@
 	width: 64px;
 }
 
+table,th,td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 15px;
+}
+
 .ListadoObjetoContenedor{
 	display: flex;
 	flex-direction: column;

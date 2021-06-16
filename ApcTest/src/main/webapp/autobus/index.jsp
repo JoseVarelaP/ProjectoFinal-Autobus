@@ -12,10 +12,7 @@
 	</head>
 	<% ArrayList<Autobus> Autobuses = new ArrayList<>(); %>
 	<body>
-		<div class="header">
-			<img src="../img/autobus.png">
-			<p>Servicio de Autobuses</p>
-		</div>
+		<script src="../js/funciones.js"></script>
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
@@ -40,7 +37,7 @@
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<center>
-				<a href="./crear.jsp?MD=0">Crear Entrada</a>
+				<a href="./crear.jsp?MD=0">Crear Entrada</a><br>
 				<table>
 					<tr>
 						<th>Numero de Serie</th>
@@ -70,5 +67,5 @@
 				</table>
 			</center>
 		</ul>
-	</body>
+	</body><script src="../js/funciones.js"></script>
 </html>

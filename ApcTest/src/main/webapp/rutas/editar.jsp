@@ -7,10 +7,7 @@
 		<title>Servicio de Autobuses</title>
 	</head>
 	<body>
-		<div class="header">
-			<img src="../img/autobus.png">
-			<p>Edición - Ruta</p>
-		</div>
+		<script src="../js/funciones.js"></script>
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>

@@ -3,15 +3,13 @@
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>
+<script src="../js/funciones.js"></script>
 	<head>
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
 	</head>
 	<body>
-		<div class="header">
-			<img src="../img/autobus.png">
-			<p>Creación - Viajes</p>
-		</div>
+		<script src="../js/funciones.js"></script>
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
@@ -71,5 +69,5 @@
 				<input type="submit" value="Submit">
 			</form>
 		</ul>
-	</body>
+	</body><script src="../js/funciones.js"></script>
 </html>

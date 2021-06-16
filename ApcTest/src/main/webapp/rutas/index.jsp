@@ -12,10 +12,7 @@
 	</head>
 	<% ArrayList<Rutas> Paradas = new ArrayList<>(); %>
 	<body>
-		<div class="header">
-			<img src="../img/autobus.png">
-			<p>Servicio de Autobuses</p>
-		</div>
+		<script src="../js/funciones.js"></script>
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>

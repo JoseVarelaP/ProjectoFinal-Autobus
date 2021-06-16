@@ -2,15 +2,13 @@
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>
+<script src="../js/funciones.js"></script>
 	<head>
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
 	</head>
 	<body>
-		<div class="header">
-			<img src="../img/autobus.png">
-			<p>Edición - Viajes</p>
-		</div>
+		<script src="../js/funciones.js"></script>
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
@@ -19,5 +17,5 @@
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<jsp:include page="AdminViajes" />
 		</ul>
-	</body>
+	</body><script src="../js/funciones.js"></script>
 </html>

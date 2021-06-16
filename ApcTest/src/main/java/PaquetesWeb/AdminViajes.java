@@ -30,7 +30,7 @@ public class AdminViajes extends HttpServlet{
 		String Partida1Combinada = rq.getParameter("HoraPartidaDia") + " " + rq.getParameter("HoraPartidaHora");
 		String Llegada1Combinada = rq.getParameter("HoraLlegadaDia") + " " + rq.getParameter("HoraLlegadaHora");
 
-		ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
+		// ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
 		
 		LocalDateTime datePartida = LocalDateTime.parse( Partida1Combinada, DTF );
 		LocalDateTime dateLlegada = LocalDateTime.parse( Llegada1Combinada, DTF );
@@ -198,7 +198,7 @@ public class AdminViajes extends HttpServlet{
 		}
 
 		Conexion conexion = new Conexion( "joseluis" );
-		Rutas con = new Rutas( conexion.getConnection() );
+		Viajes con = new Viajes( conexion.getConnection() );
 		con.ObtenerInfo(val);
 		try{
 		    con.CerrarConexion();
@@ -208,14 +208,13 @@ public class AdminViajes extends HttpServlet{
 		}
 
 		// Ok, ya tenemos la información, hora de mostrarla.
-		if( con.NumRuta() > 0 )
+		if( con.NumViaje() > 0 )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
-			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.Descripcion() +")?</h2>" );
+			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.RutaAUsar().Descripcion() +")?</h2>" );
 			out.print( "<form action='AdminRutas' method='POST'>" );
-				out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
-				out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
+				out.print( "<input type='hidden' name='MD' id='MD' value=1></input><br>" );
 				out.print( "<input type='submit' value='Eliminar Entrada'>" );
 			out.print( "</form>" );
 		} else {

@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>
-<script src="../js/funciones.js"></script>
 	<head>
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>
@@ -13,7 +12,7 @@
 		<ul>
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
-				<h2 class="Titulo">Listado de conductores</h2>
+				<h2 class="Titulo">Listado de viajes</h2>
 			</div>
 			<%
 				Conexion conexion = new Conexion( "joseluis" );

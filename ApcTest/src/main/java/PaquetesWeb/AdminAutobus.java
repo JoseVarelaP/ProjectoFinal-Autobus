@@ -32,6 +32,10 @@ public class AdminAutobus extends HttpServlet{
 		ab.Serie( Integer.parseInt( rq.getParameter("num_serie") ) );
 		ab.Capacidad( Integer.parseInt( rq.getParameter("capacidad") ) );
 
+		Rutas r = new Rutas(conexion.getConnection());
+		r.ObtenerInfo( Integer.parseInt( rq.getParameter("ruta") ) );
+		ab.RutaDedicada( r );
+
 		ab.RegistrarInformacion();
 
 		conexion.close();
@@ -103,6 +107,15 @@ public class AdminAutobus extends HttpServlet{
 		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
+
+		ArrayList<Rutas> Rut = new ArrayList<>();
+		for( int ids : administrador.Identificadores( "num_ruta", "rutas" ) )
+		{
+			Rutas c = new Rutas( conexion.getConnection() );
+			if( c.ObtenerInfo( ids ) )
+				Rut.add(c);
+		}
+
 		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
@@ -119,6 +132,14 @@ public class AdminAutobus extends HttpServlet{
 			out.print( "<input type='date' name='fabricado' id='fabricado' value=" + con.SegundoNombre() + "></input><br>" );
 			out.print( "<label for='capacidad'>Capacidad:</label>" );
 			out.print( "<input type='text' name='capacidad' id='capacidad' value=" + con.SegundoNombre() + "></input><br>" );
+
+			out.print( "<select name='ruta' id='ruta'>" );
+			for( Rutas c : Rut )
+			{
+				out.print( String.format( "<option value='%s'>%s</option>", c.NumRuta(), c.Descripcion() ) );
+			}
+			out.print( "</select>" );
+
 			out.print( "<input type='submit' value='Submit'>" );
 			out.print( "</form>" );
 		} else {

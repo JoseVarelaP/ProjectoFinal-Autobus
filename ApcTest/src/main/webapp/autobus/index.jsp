@@ -43,6 +43,7 @@
 						<th>Numero de Serie</th>
 						<th>Fabricante</th>
 						<th>Fabricado</th>
+						<th>Ruta a Utilizar</th>
 						<th>Capacidad</th>
 						<th>Editar</th>
 						<th>Eliminar</th>
@@ -52,6 +53,7 @@
 						<th><% out.print( c.Serie() ); %></th>
 						<th><% out.print( c.Fabr() ); %></th>
 						<th><% out.print( c.Fecha() ); %></th>
+						<th><% out.print( c.RutaDedicada().Descripcion() ); %></th>
 						<th><% out.print( c.Capacidad() ); %></th>
 						<th>
 							<% int num = c.Serie(); %>

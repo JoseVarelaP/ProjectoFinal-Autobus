@@ -20,7 +20,9 @@ create table autobus(
 	fabricante		varchar(10) null,
 	fabricado		date not null,
 	capacidad		int not null,
+	ruta_fk			int	not null,
 	constraint pk_autobus primary key (num_serie),
+	foreign key (ruta_fk) references rutas(num_ruta),
 	unique(num_serie)
 );
 

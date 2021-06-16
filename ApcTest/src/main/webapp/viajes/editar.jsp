@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 	<link href="../css/estilo.css" rel="stylesheet"/>
-<script src="../js/funciones.js"></script>
 	<head>
 		<meta charset="utf-8">
 		<title>Servicio de Autobuses</title>

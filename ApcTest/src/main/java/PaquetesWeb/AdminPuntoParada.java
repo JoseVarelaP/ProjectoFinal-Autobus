@@ -134,7 +134,7 @@ public class AdminPuntoParada extends HttpServlet{
 			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.NombreParada() +")?</h2>" );
 			out.print( "<form action='AdminPuntoParada' method='POST'>" );
 				out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
-				out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
+				out.print( "<input type='hidden' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 				out.print( "<input type='submit' value='Eliminar Entrada'>" );
 			out.print( "</form>" );
 		} else {

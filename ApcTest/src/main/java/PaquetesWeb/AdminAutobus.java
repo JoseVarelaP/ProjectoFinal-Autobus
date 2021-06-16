@@ -181,7 +181,7 @@ public class AdminAutobus extends HttpServlet{
 			out.print( "<form action='AdminAutobus' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
 			//out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
-			out.print( "<input type='text' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
+			out.print( "<input type='hidden' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 			out.print( "<input type='submit' value='Eliminar Entrada'>" );
 			out.print( "</form>" );
 		} else {

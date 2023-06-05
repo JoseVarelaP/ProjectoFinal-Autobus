@@ -8,10 +8,10 @@
 	</head>
 	<body>
 		<script src="../js/funciones.js"></script>
-		<ul>
+		<ul class="infoCenter">
 			<%--Haz el listado de las opciones para agregar o manipular.--%>
 			<div>
-				<h2 class="Titulo">Listado de conductores</h2>
+				<h2 class="Titulo">Editar conductor</h2>
 			</div>
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<jsp:include page="AdminConductor" />

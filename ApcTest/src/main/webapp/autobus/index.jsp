@@ -37,7 +37,7 @@
 
 			<%--Hora de agregar los nombres y colocarlos en sus grupos.--%>
 			<center>
-				<a href="./crear.jsp?MD=0">Crear Entrada</a><br>
+				<a class="button" href="./crear.jsp?MD=0">Crear Entrada</a><br>
 				<table>
 					<tr>
 						<th>Numero de Serie</th>
@@ -45,8 +45,8 @@
 						<th>Fabricado</th>
 						<th>Ruta a Utilizar</th>
 						<th>Capacidad</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+						<th></th>
+						<th></th>
 					</tr>
 					<% for( Autobus c : Autobuses ) { %>
 					<tr>
@@ -58,11 +58,11 @@
 						<th>
 							<% int num = c.Serie(); %>
 							<% String ubicacion = String.format("./editar.jsp?CID=%s&MD=2", num); %>
-							<a href= <%= ubicacion %> >Editar</a>
+							<a class="button" href= <%= ubicacion %> >Editar</a>
 						</th>
 						<th>
 							<% ubicacion = String.format("./eliminar.jsp?CID=%s&MD=1", num); %>
-							<a href= <%= ubicacion %> >Eliminar</a>
+							<a class="button" href= <%= ubicacion %> >Eliminar</a>
 						</th>
 					</tr>
 					<% } %>

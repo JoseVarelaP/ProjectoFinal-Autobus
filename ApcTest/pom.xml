@@ -4,8 +4,8 @@
   <groupId>JLV_ProyectoFinal</groupId>
   <artifactId>JLV_ProyectoFinal</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Proyecto Final Diseño Web Jose_Varela</name>
+  <version>0.8-TA</version>
+  <name>Proyecto Final Topicos Avanzados de Informática Jose_Varela</name>
   <url>http://maven.apache.org</url>
   
   <dependencies>
@@ -56,4 +56,10 @@
         <maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
     </properties>
+    <description>Comenzando con la integración del sitio web,
+el programa debe ser compilado por NetBeans.
+
+La carpeta ApcTest contiene el programa y los servidores a
+obtener para correr el servicio.
+Corre en una instancia de Apache tomcat (Probado en 10.0.6).</description>
 </project>

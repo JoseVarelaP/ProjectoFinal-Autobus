@@ -1,9 +1,9 @@
 body{
-	background: url("../img/bg.jpg");
+	/* background: url("../img/bg.jpg"); */
 	background-repeat: no-repeat;
 	background-size: cover;
-	color: white;
 	font-family: 'Gidole';
+	margin: 0;
 }
 
 a {
@@ -13,7 +13,13 @@ a {
 /* Usaremos una fuente que utilizo en mi propia página web. */
 @font-face {
     font-family: "Gidole";
-	src: url("https://josevarela.xyz/Gir.otf") format('truetype');
+	src: url("https://josevarela.net/Gir.otf") format('truetype');
+}
+
+.infoCenter {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
 }
 
 .header{
@@ -21,20 +27,93 @@ a {
 	flex-flow: row;
 	align-items: center;
 	gap: 10px;
+	box-shadow: 0px 2px 6px #000;
 }
 
 .header > img{
 	width: 64px;
 }
 
-table,th,td {
-	background-color: black;
-	border: 1px solid white;
-	border-collapse: collapse;
-	padding: 15px;
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table thead tr {
+    background-color: lightseagreen;
+    color: #ffffff;
+    text-align: left;
+}
+table th,
+table td {
+    padding: 12px 15px;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
 }
 
 .listadoPaginas{
 	display: flex;
 	justify-content: space-between;
+}
+
+/* Agrega estilo de botón */
+a.button {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #1A1A1A;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3B3B3B;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 40px;
+  margin: 0;
+  min-height: 40px;
+  min-width: 0;
+  outline: none;
+  padding: 0px 10px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform;
+}
+
+a.button:disabled {
+  pointer-events: none;
+}
+
+a.button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+a.button:active {
+  box-shadow: none;
+  transform: translateY(0);
 }

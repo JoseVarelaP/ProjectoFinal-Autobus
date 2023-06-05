@@ -11,6 +11,7 @@ const ListarCabezera = () =>
 
 	const vertical = document.createElement("div");
 	vertical.style.width = "400px";
+	vertical.style.marginBottom = "10px";
 
 	const Titulo = document.createElement("p");
 	Titulo.textContent = "Servicio de Autobuses";

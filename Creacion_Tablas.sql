@@ -1,3 +1,8 @@
+-- Dado como postgres funciona, no es posible seleccionar la base de datos directamente por un
+-- query, asi que la eliminación debe ser realizada manualmente cuando se quiera reiniciar los datos.
+-- DROP DATABASE IF EXISTS autobus;
+-- CREATE DATABASE autobus;
+
 create type nombre as(
 	prim_nombre		VARCHAR(10),
 	segu_nombre		VARCHAR(10),
@@ -13,17 +18,6 @@ create table conductor(
 	direccion		varchar(30) not null,
 	--constraint pk_conductor primary key (num_conductor),
 	unique(num_conductor)
-);
-
-create table autobus(
-	num_serie		int	not null,
-	fabricante		varchar(10) null,
-	fabricado		date not null,
-	capacidad		int not null,
-	ruta_fk			int	not null,
-	constraint pk_autobus primary key (num_serie),
-	foreign key (ruta_fk) references rutas(num_ruta),
-	unique(num_serie)
 );
 
 -- Separaremos la entrada de puntos a que sean enblocados.
@@ -49,6 +43,17 @@ create table rutas(
 	-- Aplica las llaves foraneas para agarrar esa tabla.
 	foreign key (dest_inicio) references punto_parada(ind_parada),
 	foreign key (dest_final) references punto_parada(ind_parada)
+);
+
+create table autobus(
+	num_serie		int	not null,
+	fabricante		varchar(10) null,
+	fabricado		date not null,
+	capacidad		int not null,
+	ruta_fk			int	not null,
+	constraint pk_autobus primary key (num_serie),
+	foreign key (ruta_fk) references rutas(num_ruta),
+	unique(num_serie)
 );
 
 create table viajes(

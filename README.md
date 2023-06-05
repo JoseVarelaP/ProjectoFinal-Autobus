@@ -1,7 +1,17 @@
-# ProjectoFinal-Web
+# ProjectoFinal-TopicosInfo
 
-Repositorio para el projecto final (y las actividades relacionadas) en la materia
+El repositorio para el proyecto final de Tópicos avanzados de informática.
+
+Originalmente el repositorio para el projecto final (y las actividades relacionadas) en la materia
 de Diseño de Aplicaciones Web.
+
+Y también un cameo como el [proyecto de Aplicaciones Web](https://github.com/JoseVarelaP/PSW-Proyecto) (privado, si quieren verlo, ¡preguntenme!).
+
+## Aplicación de tablas postgres
+
+Para utilizar las tablas proveeidas, corre `Creacion_Tablas.sql` en un programa que procese queries automaticamente como pgAdmin o Postico.
+
+Después de eso, utiliza `InsertarDatos.sql` para colocar datos de prueba.
 
 ## Aviso
 

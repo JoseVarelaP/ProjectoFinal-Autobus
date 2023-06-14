@@ -1,7 +1,7 @@
 -- Dado como postgres funciona, no es posible seleccionar la base de datos directamente por un
--- query, asi que la eliminación debe ser realizada manualmente cuando se quiera reiniciar los datos.
--- DROP DATABASE IF EXISTS autobus;
--- CREATE DATABASE autobus;
+-- query, asi que la eliminación debe ser realizada manualmente cuando se quiera reiniciar los datos.s
+-- DROP DATABASE IF EXISTS joseluis;
+-- CREATE DATABASE joseluis;
 
 create type nombre as(
 	prim_nombre		VARCHAR(10),

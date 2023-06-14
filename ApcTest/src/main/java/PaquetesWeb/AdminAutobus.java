@@ -71,16 +71,18 @@ public class AdminAutobus extends HttpServlet{
 		Conexion conexion = new Conexion( "joseluis" );
 		Autobus con = new Autobus( conexion.getConnection() );
 
-		con.Fabr( rq.getParameter("fabr") );
+		int serial = Integer.parseInt(rq.getParameter("ConID"));
+		con.Serie( serial );
+		con.Fabr( rq.getParameter("fabricante") );
 		
 		// Hay que convertir la fecha ya que SQL date es diferente.
 		DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDate dateObj = LocalDate.parse( rq.getParameter("Fecha"), DTF );
+		LocalDate dateObj = LocalDate.parse( rq.getParameter("fabricado"), DTF );
 		con.Fecha( dateObj );
 
-		con.Capacidad( Integer.parseInt( rq.getParameter("cap") ) );
+		con.Capacidad( Integer.parseInt( rq.getParameter("capacidad") ) );
 
-		con.RegistrarInformacion();
+		con.ActualizarInformacion();
 	
 		conexion.close();
 		rp.sendRedirect("index.jsp");
@@ -106,8 +108,8 @@ public class AdminAutobus extends HttpServlet{
 
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
-		Conductor con = new Conductor( conexion.getConnection() );
-		con.ObtenerInfo(val);
+		Autobus con = new Autobus( conexion.getConnection() );
+		boolean obtenido = con.ObtenerInfo(val);
 
 		ArrayList<Rutas> Rut = new ArrayList<>();
 		for( int ids : administrador.Identificadores( "num_ruta", "rutas" ) )
@@ -120,19 +122,19 @@ public class AdminAutobus extends HttpServlet{
 		conexion.close();
 
 		// Ok, ya tenemos la información, hora de mostrarla.
-		if( con.ObtenerID() != 0 )
+		if( obtenido )
 		{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
-			out.print( "<form action='AdminConductor' method='POST'>" );
+			out.print( "<form action='AdminAutobus' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
 			out.print( "<label for='ConID'>Numero de Serie:</label>" );
-			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.ObtenerID() + " readonly='readonly'></input><br>" );
+			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.Serie() + " readonly='readonly'></input><br>" );
 			out.print( "<label for='fabricante'>Fabricante:</label>" );
-			out.print( "<input type='text' name='fabricante' id='fabricante' value=" + con.PrimerNombre() + "></input><br>" );
+			out.print( "<input type='text' name='fabricante' id='fabricante' required value=" + con.Fabr() + "></input><br>" );
 			out.print( "<label for='fabricado'>Fabricado:</label>" );
-			out.print( "<input type='date' name='fabricado' id='fabricado' value=" + con.SegundoNombre() + "></input><br>" );
+			out.print( "<input type='date' name='fabricado' id='fabricado' required value=" + con.Fecha() + "></input><br>" );
 			out.print( "<label for='capacidad'>Capacidad:</label>" );
-			out.print( "<input type='text' name='capacidad' id='capacidad' value=" + con.SegundoNombre() + "></input><br>" );
+			out.print( "<input type='number' name='capacidad' id='capacidad' required value=" + con.Capacidad() + "></input><br>" );
 
 			out.print( "<select name='ruta' id='ruta'>" );
 			for( Rutas c : Rut )

@@ -34,14 +34,14 @@
 				<select name='DestInicio' id='DestInicio'>
 					<%
 						for( PuntoParada r : Rut )
-							out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() + r.Ind_Parada() ) );
+							out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
 					%>
 				</select><br>
 				<label for='DestFinal'>Punto de Llegada:</label>
 				<select name='DestFinal' id='DestFinal'>
 					<%
 						for( PuntoParada r : Rut )
-							out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() + r.Ind_Parada() ) );
+							out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
 					%>
 				</select><br>
 				<label for='Desc'>Descripción:</label>

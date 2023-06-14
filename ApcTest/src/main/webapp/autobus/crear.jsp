@@ -25,7 +25,7 @@
 				<label for='fabricado'>Fabricado en:</label>
 				<input type="date" name='fabricado' id='fabricado'></input><br>
 				<label for='capacidad'>Capacidad:</label>
-				<input type="text" name='capacidad' id='capacidad'></input><br>
+				<input type="number" name='capacidad' id='capacidad'></input><br>
 
 				<label for='ruta'>Ruta a operar:</label>
 				<select name='ruta' id='ruta'>

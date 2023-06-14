@@ -47,7 +47,7 @@ public class AdminRutas extends HttpServlet{
 		if( val == 0 )
 			return;
 		try{
-			administrador.Eliminar( "punto_parada", "ind_parada = " + val );
+			administrador.Eliminar( "rutas", "num_ruta = " + val );
 			conexion.close();
 			rp.sendRedirect("index.jsp");
 		} catch(Exception e)

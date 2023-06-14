@@ -45,7 +45,7 @@ public class Rutas extends DAO {
 				// Tenemos datos! hora de registrarlos.
 				this.num_ruta = Integer.parseInt(result.getString("ID"));
 				this.dest_inicio.ObtenerInfo( Integer.parseInt(result.getString("dinicio")) );
-				this.dest_final.ObtenerInfo( Integer.parseInt(result.getString("dinicio")) );
+				this.dest_final.ObtenerInfo( Integer.parseInt(result.getString("dfinal")) );
 				this.Desc = result.getString("desc");
 			}
 		} catch (SQLException e)

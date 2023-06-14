@@ -116,6 +116,9 @@ public class AdminRutas extends HttpServlet{
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.NumRuta() != 0 )
 		{
+                        int indxInicio = con.DestInicio().Ind_Parada();
+                        int indxFinal = con.DestFinal().Ind_Parada();
+                        
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 			out.print( "<form action='AdminRutas' method='POST'>" );
 			out.print( "<input type='hidden' name='MD' id='MD' value=2 readonly='readonly'></input><br>" );
@@ -123,16 +126,26 @@ public class AdminRutas extends HttpServlet{
 			out.print( "<input type='text' name='ConID' id='ConID' value=" + con.NumRuta() + " readonly='readonly'></input><br>" );
 			out.print( "<label for='DestInicio'>Punto de Inicio:</label>" );
 			out.print( "<select type='text' name='DestInicio' id='DestInicio'>" );
-				for( PuntoParada r : Rut )
-					out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                        
+                        for( PuntoParada r : Rut )
+                            if( r.Ind_Parada() == indxInicio )
+                                out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                            else
+                                out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                                
 			out.print( "</select><br>" );
 			out.print( "<label for='DestFinal'>Punto de Llegada:</label>" );
 			out.print( "<select type='text' name='DestFinal' id='DestFinal'>" );
-				for( PuntoParada r : Rut )
-					out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                        
+                        for( PuntoParada r : Rut )
+                            if( r.Ind_Parada() == indxFinal )
+                                out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                            else
+                                out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+                        
 			out.print( "</select><br>" );
 			out.print( "<label for='Desc'>Descripción:</label>" );
-			out.print( "<input type='text' name='Desc' id='Desc' value=" + con.Descripcion() + "></input><br>" );
+			out.print( "<input type='text' name='Desc' id='Desc' value='" + con.Descripcion() + "'></input><br>" );
 			out.print( "<input type='submit' value='Submit'>" );
 			out.print( "</form>" );
 		} else {

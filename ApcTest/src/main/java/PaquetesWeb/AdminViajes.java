@@ -30,7 +30,7 @@ public class AdminViajes extends HttpServlet{
 		String Partida1Combinada = rq.getParameter("HoraPartidaDia") + " " + rq.getParameter("HoraPartidaHora");
 		String Llegada1Combinada = rq.getParameter("HoraLlegadaDia") + " " + rq.getParameter("HoraLlegadaHora");
 
-		// ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
+		ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
 		
 		LocalDateTime datePartida = LocalDateTime.parse( Partida1Combinada, DTF );
 		LocalDateTime dateLlegada = LocalDateTime.parse( Llegada1Combinada, DTF );
@@ -64,6 +64,7 @@ public class AdminViajes extends HttpServlet{
 	}
 
 	void Eliminar( HttpServletRequest rq, HttpServletResponse rp ) throws IOException{
+                System.out.println("Deleting");
 		Conexion conexion = new Conexion( "joseluis" );
 		DAO administrador = new DAO( conexion.getConnection() );
 		Autobus con = new Autobus( conexion.getConnection() );
@@ -73,7 +74,7 @@ public class AdminViajes extends HttpServlet{
 		if( val == 0 )
 			return;
 		try{
-			administrador.Eliminar( "punto_parada", "ind_parada = " + val );
+			administrador.Eliminar( "viajes", "num_viaje = " + val );
 			con.CerrarConexion();
 			rp.sendRedirect("index.jsp");
 		} catch(Exception e)
@@ -213,7 +214,7 @@ public class AdminViajes extends HttpServlet{
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.RutaAUsar().Descripcion() +")?</h2>" );
-			out.print( "<form action='AdminRutas' method='POST'>" );
+			out.print( "<form action='AdminViajes' method='POST'>" );
 				out.print( "<input type='hidden' name='MD' id='MD' value=1></input><br>" );
 				out.print( "<input type='hidden' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
 				out.print( "<input type='submit' value='Eliminar Entrada'>" );

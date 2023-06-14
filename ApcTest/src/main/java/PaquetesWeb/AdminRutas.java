@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.ResultSet;
 
 import java.util.ArrayList;
 
@@ -116,8 +117,8 @@ public class AdminRutas extends HttpServlet{
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.NumRuta() != 0 )
 		{
-                        int indxInicio = con.DestInicio().Ind_Parada();
-                        int indxFinal = con.DestFinal().Ind_Parada();
+			int indxInicio = con.DestInicio().Ind_Parada();
+			int indxFinal = con.DestFinal().Ind_Parada();
                         
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 			out.print( "<form action='AdminRutas' method='POST'>" );
@@ -127,21 +128,21 @@ public class AdminRutas extends HttpServlet{
 			out.print( "<label for='DestInicio'>Punto de Inicio:</label>" );
 			out.print( "<select type='text' name='DestInicio' id='DestInicio'>" );
                         
-                        for( PuntoParada r : Rut )
-                            if( r.Ind_Parada() == indxInicio )
-                                out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
-                            else
-                                out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
-                                
+			for( PuntoParada r : Rut )
+				if( r.Ind_Parada() == indxInicio )
+					out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+				else
+					out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+					
 			out.print( "</select><br>" );
 			out.print( "<label for='DestFinal'>Punto de Llegada:</label>" );
 			out.print( "<select type='text' name='DestFinal' id='DestFinal'>" );
                         
-                        for( PuntoParada r : Rut )
-                            if( r.Ind_Parada() == indxFinal )
-                                out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
-                            else
-                                out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+			for( PuntoParada r : Rut )
+				if( r.Ind_Parada() == indxFinal )
+					out.print( String.format( "<option value='%s' selected>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
+				else
+					out.print( String.format( "<option value='%s'>%s</option>", r.Ind_Parada() , r.NombreParada() ) );
                         
 			out.print( "</select><br>" );
 			out.print( "<label for='Desc'>Descripción:</label>" );
@@ -180,13 +181,37 @@ public class AdminRutas extends HttpServlet{
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.NumRuta() > 0 )
 		{
+			// Antes de esto, checa si la ruta fue asignada a un viaje. Sería
+			// un problema permitir eliminarlo.
+			ResultSet result = administrador.ConsultaPublica(
+				String.format("SELECT num_viaje, descripcion, ruta_a_usar_fk FROM viajes as A INNER JOIN rutas as B ON A.ruta_a_usar_fk = B.num_ruta where ruta_a_usar_fk = %d;", val)
+			);
+			
+			int resultados = 0;
+
+			try {
+				while( result.next() ){
+					resultados++;
+				}
+			} catch (Exception e) {
+				// No hagas nada aquí, no hay problema.
+			}
+			
+			
+			if( resultados > 0 ){
+				out.print( "<h2>Existe un viaje con esta ruta asignada.</h2>" );
+				out.print( "<p>Por favor, elimine el viaje antes de continuar.</p>" );
+				out.print( "<a href='index.jsp'>Regresar</a>" );
+				return;
+			}
+
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.Descripcion() +")?</h2>" );
 			out.print( "<form action='AdminRutas' method='POST'>" );
-				out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
-				out.print( "<input type='hidden' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
-				out.print( "<input type='submit' value='Eliminar Entrada'>" );
+					out.print( "<input type='hidden' name='MD' id='MD' value=1 readonly='readonly'></input><br>" );
+					out.print( "<input type='hidden' name='ConID' id='ConID' value="+ val +" readonly='readonly'>" );
+					out.print( "<input type='submit' value='Eliminar Entrada'>" );
 			out.print( "</form>" );
 		} else {
 			out.print( "<h2>No hay una parada registrada con este ID.</h2>" );

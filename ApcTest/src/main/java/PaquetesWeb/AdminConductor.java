@@ -2,6 +2,7 @@ package PaquetesWeb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 
 import DAO.*;
 import jakarta.servlet.ServletException;
@@ -174,6 +175,7 @@ public class AdminConductor extends HttpServlet{
 		}
 
 		Conexion conexion = new Conexion( "joseluis" );
+		DAO administrador = new DAO( conexion.getConnection() );
 		Conductor con = new Conductor( conexion.getConnection() );
 		con.ObtenerInfo(val);
 		conexion.close();
@@ -181,6 +183,30 @@ public class AdminConductor extends HttpServlet{
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.ObtenerID() != 0 )
 		{
+			// Antes de esto, checa si el conductor fue asignada a un viaje. Sería
+			// un problema permitir eliminarlo.
+			ResultSet result = administrador.ConsultaPublica(
+				String.format("SELECT num_conductor, conductor_fk FROM conductor as A INNER JOIN viajes as B ON A.num_conductor = B.conductor_fk where num_conductor = %d;", val)
+			);
+			
+			int resultados = 0;
+
+			try {
+				while( result.next() ){
+					resultados++;
+				}
+			} catch (Exception e) {
+				// No hagas nada aquí, no hay problema.
+			}
+			
+			
+			if( resultados > 0 ){
+				out.print( "<h2>Existe un viaje con este conductor.</h2>" );
+				out.print( "<p>Por favor, elimine el viaje antes de continuar.</p>" );
+				out.print( "<a href='index.jsp'>Regresar</a>" );
+				return;
+			}
+
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +"("+ con.ObtenerNombreCompleto() +")?</h2>" );

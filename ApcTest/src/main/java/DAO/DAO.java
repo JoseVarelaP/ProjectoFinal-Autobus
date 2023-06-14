@@ -15,6 +15,10 @@ public class DAO{
 	{
 		this.con.close();
 	}
+        
+        public ResultSet ConsultaPublica(String query){
+            return Consulta(query);
+        }
 
 	ResultSet Consulta(String query){
 		Statement state = null;

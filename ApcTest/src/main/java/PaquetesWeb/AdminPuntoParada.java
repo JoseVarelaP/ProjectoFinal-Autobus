@@ -2,6 +2,7 @@ package PaquetesWeb;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 
 import DAO.*;
 import jakarta.servlet.ServletException;
@@ -129,6 +130,38 @@ public class AdminPuntoParada extends HttpServlet{
 		// Ok, ya tenemos la información, hora de mostrarla.
 		if( con.Ind_Parada() > 0 )
 		{
+
+			// Antes de esto, checa si la ruta fue asignada a un viaje. Sería
+			// un problema permitir eliminarlo.
+			ResultSet result = administrador.ConsultaPublica(
+				String.format("SELECT A.num_ruta, B.ind_parada, C.ind_parada, A.descripcion" +
+					" from rutas as A" +
+					" join punto_parada as B" +
+					" on A.dest_inicio = B.ind_parada" +
+					" join punto_parada as C" +
+					" on A.dest_final = C.ind_parada" +
+					" where A.dest_inicio = %d or A.dest_final = %d;"
+				, val, val)
+			);
+			
+			int resultados = 0;
+
+			try {
+				while( result.next() ){
+					resultados++;
+				}
+			} catch (Exception e) {
+				// No hagas nada aquí, no hay problema.
+			}
+			
+			
+			if( resultados > 0 ){
+				out.print( "<h2>Existe una o varias rutas con esta parada.</h2>" );
+				out.print( "<p>Por favor, elimine o modifique las rutas antes de continuar.</p>" );
+				out.print( "<a href='index.jsp'>Regresar</a>" );
+				return;
+			}
+
 			out.print( "<a href='index.jsp'>Regresar</a><br><br>" );
 
 			out.print( "<h2>Desea eliminar la entrada "+ val +" ("+ con.NombreParada() +")?</h2>" );

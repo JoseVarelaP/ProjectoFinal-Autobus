@@ -30,7 +30,9 @@ public class AdminViajes extends HttpServlet{
 		String Partida1Combinada = rq.getParameter("HoraPartidaDia") + " " + rq.getParameter("HoraPartidaHora");
 		String Llegada1Combinada = rq.getParameter("HoraLlegadaDia") + " " + rq.getParameter("HoraLlegadaHora");
 
-		ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
+		// Modifica el numero de viaje si el ID es proveido.
+		if( rq.getParameter("ConID") != null )
+			ab.NumViaje( Integer.parseInt(rq.getParameter("ConID")) );
 		
 		LocalDateTime datePartida = LocalDateTime.parse( Partida1Combinada, DTF );
 		LocalDateTime dateLlegada = LocalDateTime.parse( Llegada1Combinada, DTF );
